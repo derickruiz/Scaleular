@@ -104,8 +104,9 @@ const NONPURE_LAYOUT = [
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale"
     },
-    scaleProperties: ["font-size"]
-
+    scaleProperties: ["font-size"],
+    colors: true,
+    lineHeights: true
   },
   {
     className: "Bold",
@@ -129,7 +130,7 @@ const NONPURE_LAYOUT = [
       "-moz-osx-font-smoothing": "grayscale"
     },
     scaleProperties: ["font-size"],
-    color: true,
+    colors: true,
     lineHeights: true
   },
   {
@@ -141,7 +142,7 @@ const NONPURE_LAYOUT = [
       "-moz-osx-font-smoothing": "grayscale"
     },
     scaleProperties: ["font-size"],
-    color: true,
+    colors: true,
     lineHeights: true
   },
   {
@@ -179,7 +180,7 @@ module.exports = {
   numberOfResizePoints: DATA.numberOfResizePoints,
   numberOfSizes: DATA.numberOfSizes,
   PURE_LAYOUT: PURE_LAYOUT,
-  NON_PURELAYOUT: NONPURE_LAYOUT,
+  NONPURE_LAYOUT: NONPURE_LAYOUT,
   COLORS: COLORS,
   LINE_HEIGHTS: LINE_HEIGHTS
 };
