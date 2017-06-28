@@ -18,6 +18,8 @@
   "homepage": "https://github.com/derickruiz/Scaleular#readme",
   "devDependencies": {
     "color-namer": "^1.1.0",
-    "number-to-words": "^1.2.3"
+    "dot": "^1.1.2",
+    "number-to-words": "^1.2.3",
+    "qunit": "^1.0.0"
   }
 }
