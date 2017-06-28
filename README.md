@@ -3,13 +3,16 @@ Dynamically generate CSS classes to create layouts based on a scale.
 
 # How do I use it?
 
-1. Git clone this repo.
-2. Inside of the repo directory run `node scaleular.js`
+Include `<link rel="stylesheet" type="text/css" href="https://scaleular.com/generated.css">` to begin immeditely using the generated classes to create
+
+or
+
+Include `_generated.scss` in your project.
 
 # What will it generate?
 
 
-A `_generated.scss` file that has a bunch of useful classes for styling your web pages.
+A bunch of useful classes for atomically styling your web pages. It's declarative. It's all in the HTML. It's fast.
 
 # How do I use it?
 
