@@ -110,7 +110,7 @@ const getScaleBasedOnNumber = function(number, direction, returnVariable) {
   if (number === 0) {
     return returnVariable ? "$scale-default" : "default";
   } else {
-    const uppercasedDirection = direction.charAt(0).toUpperCase() + direction.slice(1);
+    const uppercasedDirection = UTILS.capitalize(direction);
     return returnVariable ? "$scale-" + numberWord.toLowerCase() + "-" + direction.toLowerCase() : numberWord.toLowerCase() + uppercasedDirection;
 
   }
@@ -155,6 +155,10 @@ const generateScaledClasses = function (className, properties) {
 
 };
 
+/*
+ * @description - Generates custom css classes for each color in DATA.COLORS given a className.
+ * @example: &.Bold--mediumBlue { color: $40300; }
+ * TODO: Right now just immeditely puts the color in there, but would be cool to generate variables first and use that instead of the direct HEX code. */
 const generateColorClasses = function (className) {
 
   const colorClasses = [];
@@ -172,6 +176,30 @@ const generateColorClasses = function (className) {
   }
 
   return colorClasses;
+};
+
+/*
+ * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
+ * @example: &.Bold--lineHeightOneFour{ line-height: 1.4; }
+ * TODO: Put variables in there instead. */
+const generateColorClasses = function (className) {
+
+  const classes = [];
+
+  for (let i = 0; i < DATA.LINE_HEIGHTS.length; i += 1) {
+
+    colorClasses.push(
+      singleLayoutClass({
+        className: className,
+        modifier: UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
+        properties: ["color"],
+        propertyValue: DATA.COLORS[i]
+      })
+    );
+
+  }
+
+  return classes;
 };
 
 const generatePureLayout = function () {
@@ -224,6 +252,9 @@ const generateNonPureLayout = function () {
       const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className);
     }
 
+    if ("lineHeights" in DATA.NONPURE_LAYOUT[i]) {
+      const lineHeightClasses = generateLineHeightClasses(DATA.NONPURE_LAYOUT[i].className);
+    }
   }
 
 };
