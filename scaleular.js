@@ -348,7 +348,8 @@ const generateResponsiveLayout = function (resizePoint) {
 
 const generateEntireLayout = function () {
   let result = "";
-  
+
+  result += DATA.VARIABLES + "\n";
   result += variableGenerator(DATA.baseFontSize, DATA.scale, DATA.numberOfSizes) + "\n\n";
 
   result += generatePureLayout();
@@ -365,18 +366,43 @@ const generateEntireLayout = function () {
 
 };
 
-const putGeneratedLayoutIntoFile = function () {
+const putGeneratedLayoutIntoFile = function (renderCss) {
 
   const entireLayout = generateEntireLayout();
 
   console.log("Generating the classes...");
+
   fs.writeFile("./_generated.scss", entireLayout, function(err) {
       if(err) {
           return console.log(err);
       }
-      console.log("The file was saved!");
-  });
 
+      if (!err && renderCss) {
+
+        const sass = require('node-sass');
+
+        sass.render({
+          file: "./_generated.scss",
+          outFile: "./generated.css"
+        }, function(err, result) {
+
+          if (!err) {
+            fs.writeFile("./generated.css", result.css, function (error) {
+              if ( ! error) {
+                console.log("No error while generating the CSS!");
+              } else {
+                console.log("error");
+              }
+            });
+          } else {
+            console.log(err);
+          }
+
+        });
+
+      }
+
+  });
 };
 
-putGeneratedLayoutIntoFile();
+putGeneratedLayoutIntoFile(true);
