@@ -4,27 +4,27 @@ test("UTILS.decimalToWord", function (assert) {
 
     let decimalToWords = [{
       decimal: "1.2",
-      answer: "oneTwo"
+      answer: "OneTwo"
     },
     {
       decimal: "1.4",
-      answer: "oneFour"
+      answer: "OneFour"
     },
     {
       decimal: "0",
-      answer: "zero"
+      answer: "Zero"
     },
     {
       decimal: "2",
-      answer: "two"
+      answer: "Two"
     },
     {
       decimal: "1.618",
-      answer: "oneSixOneEight"
+      answer: "OneSixOneEight"
     },
     {
       decimal: "0.45",
-      answer: "zeroFourFive"
+      answer: "ZeroFourFive"
     }];
 
     decimalToWords.forEach(function (decimalAnswerPair) {

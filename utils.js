@@ -16,9 +16,6 @@ function capitalize(string) {
 /* @description: Take a decimal 1.4 for example and generate a string "oneFour"; */
 function decimalToWord(decimal) {
 
-  console.log("decimalToWord");
-  console.log("decimal", decimal);
-
   let result = "";
 
   let splitDecimal;
@@ -28,14 +25,14 @@ function decimalToWord(decimal) {
 
     let splitDecimal = decimal.split(".");
 
-    result += numberConverter.toWords(splitDecimal[0]).toLowerCase();
+    result += capitalize(numberConverter.toWords(splitDecimal[0]).toLowerCase());
 
     splitDecimal[1].split("").forEach(function (individualNumber) {
       result += capitalize(numberConverter.toWords(individualNumber));
     });
 
   } else { // If it's just a normal number, just go ahead and convert that into a word.
-    result += numberConverter.toWords(decimal).toLowerCase();
+    result += capitalize(numberConverter.toWords(decimal).toLowerCase());
   }
 
   return result;
