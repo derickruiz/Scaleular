@@ -182,18 +182,18 @@ const generateColorClasses = function (className) {
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
  * @example: &.Bold--lineHeightOneFour{ line-height: 1.4; }
  * TODO: Put variables in there instead. */
-const generateColorClasses = function (className) {
+const generateLineHeightClasses = function (className) {
 
   const classes = [];
 
   for (let i = 0; i < DATA.LINE_HEIGHTS.length; i += 1) {
 
-    colorClasses.push(
+    classes.push(
       singleLayoutClass({
         className: className,
-        modifier: UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
-        properties: ["color"],
-        propertyValue: DATA.COLORS[i]
+        modifier: "lineHeight" + UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
+        properties: ["line-height"],
+        propertyValue: DATA.LINE_HEIGHTS[i]
       })
     );
 
@@ -265,5 +265,4 @@ const generateNonPureLayout = function () {
 // console.log("pure-layout");
 // console.log(generatePureLayout());
 
-
-console.log("numberConverter(1.25)", numberConverter);
+console.log("example of line height classes", generateLineHeightClasses("Bold"));
