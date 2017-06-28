@@ -19,6 +19,7 @@
   "devDependencies": {
     "color-namer": "^1.1.0",
     "dot": "^1.1.2",
+    "node-sass": "^4.5.3",
     "number-to-words": "^1.2.3",
     "qunit": "^1.0.0"
   }
