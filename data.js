@@ -6,12 +6,16 @@ const DATA = {
 };
 
 const VARIABLES = `
-
+  $resizePoint-one: "(min-width: 22.625em)";
+  $resizePoint-two: "(min-width: 25em)";
+  $resizePoint-three: "(min-width: 31.875em)";
+  $resizePoint-four: "(min-width: 42.5em)";
+  $resizePoint-five: "(min-width: 50em)";
+  $resizePoint-six: "(min-width: 62.5em)";
   $fontFamily-text:   Arial, sans-serif;
   $fontFamily-boldText:   Arial, sans-serif;
   $fontFamily-italicText: Arial, sans-serif;
   $fontFamily-condensedText: Arial, sans-serif;
-
 `;
 
 const LINE_HEIGHTS = ["1", "1.2", "1.25", "1.3", "1.5", "1.618", "2"];
@@ -182,5 +186,6 @@ module.exports = {
   PURE_LAYOUT: PURE_LAYOUT,
   NONPURE_LAYOUT: NONPURE_LAYOUT,
   COLORS: COLORS,
-  LINE_HEIGHTS: LINE_HEIGHTS
+  LINE_HEIGHTS: LINE_HEIGHTS,
+  VARIABLES: VARIABLES
 };
