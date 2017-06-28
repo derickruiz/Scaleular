@@ -1,10 +1,8 @@
-const DATA = require("data");
-
+const DATA = require("./data.js");
+const UTILS = require("./utils.js");
 const doT = require('dot');
 const numberConverter = require('number-to-words');
-// const colorNamer = require('color-namer');
-
-// STEP 1. Generate scale variables
+const colorNamer = require('color-namer');
 
 /* Gets the next level down for the scale given the base font size. */
 const getDownRemNumber = function (baseFontSize, scale, number) {
@@ -157,6 +155,25 @@ const generateScaledClasses = function (className, properties) {
 
 };
 
+const generateColorClasses = function (className) {
+
+  const colorClasses = [];
+
+  for (let i = 0; i < DATA.COLORS.length; i += 1) {
+    const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name);
+    colorClasses.push(
+      singleLayoutClass({
+        className: className,
+        modifier: customColorName,
+        properties: ["color"],
+        propertyValue: DATA.COLORS[i]
+      })
+    );
+  }
+
+  return colorClasses;
+};
+
 const generatePureLayout = function () {
 
 
@@ -203,9 +220,19 @@ const generateNonPureLayout = function () {
       const scaledClasses = generateScaledClasses(DATA.NONPURE_LAYOUT[i].className, DATA.NONPURE_LAYOUT[i].scaleProperties);
     }
 
+    if ("color" in DATA.NONPURE_LAYOUT[i]) {
+      const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className);
+    }
+
   }
 
 };
 
+// What's left? Generating default-properties, colors, line-heights, and then responsive versions of everything.
+
+// In terms of default-properties I feel like that's something `allLayoutParts` should be concerned with. Like passing it as a variable and iterating or somethign.
 // console.log("pure-layout");
 // console.log(generatePureLayout());
+
+
+console.log("numberConverter(1.25)", numberConverter);
