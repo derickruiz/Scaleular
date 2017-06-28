@@ -348,6 +348,8 @@ const generateResponsiveLayout = function (resizePoint) {
 
 const generateEntireLayout = function () {
   let result = "";
+  
+  result += variableGenerator(DATA.baseFontSize, DATA.scale, DATA.numberOfSizes) + "\n\n";
 
   result += generatePureLayout();
   result += generateNonPureLayout();
@@ -367,6 +369,7 @@ const putGeneratedLayoutIntoFile = function () {
 
   const entireLayout = generateEntireLayout();
 
+  console.log("Generating the classes...");
   fs.writeFile("./_generated.scss", entireLayout, function(err) {
       if(err) {
           return console.log(err);
