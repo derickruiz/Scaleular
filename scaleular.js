@@ -249,52 +249,69 @@ const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
 // STEP 2. Generate the layout.
 
-const singleLayoutPart = doT.template(
+/*
+ * @description: Generates a single class in the form of &.TopSpacer--default { padding-top: $scale-default }
+ *
+ * The template takes the following variables
+ * {
+      prefix:String - "one", "two", "three", etc - Used for generating responsive layouts.
+      className:String - The name of the class layout part.
+      scaleModifier:String "default", "oneUp", "twoUp", "oneDown', etc. Which size?
+      properties:Array<String> The properties that this class will use. ["padding-top", etc.],
+      scaleValue: "$scale-default", "$scale-one-up", etc. Which size?
+    }
+  *
+*/
+const singleLayoutClass = doT.template(
 
   `
   {{?it.prefix}}
-  .{{=it.prefix}}-{{=it.className}} {
+  &.{{=it.prefix}}-{{=it.className}}--{{=it.scaleModifier}} {
   {{??}}
-  .{{=it.className}} {
+  &.{{=it.className}}--{{=it.scaleModifier}} {
   {{?}}
     {{~it.properties :propertyName}}
-      {{=propertyName}}: {{=it.value}}
+      {{=propertyName}}: {{=it.scaleValue}}
     {{~}}
-   {{=it.property}}: {{=it.value}}
   }`
 
 );
 
-
-// I need a function that now generates the entire tree actually
-// in the format of
-
-// .TopSpacer {
-//   &.TopSpacer--default {
-//
-//   }
-// }
+/*
+ * @description: Generates the shell of the layout part in the form TopSpacer { &.TopSpacer--default { } }
+ *
+ * The template takes the following variables
+ * {
+      className:String - The name of the class layout part.
+      generatedClasses:Array<String> All of the generated classes using singleLayoutClass function for this particular className.
+    }
+  *
+*/
+const allLayoutParts = doT.template(
+  `
+  .{{=it.className}} {
+    {{~it.generatedClasses :generatedClass}}
+      {{=generatedClass}}
+    {{~}}
+  }
+  `
+);
 
 /*
  * @description - Returns the appropriate $scale variable based on the number that's passed in
  * @param number:Integer
  * @param direction:String - The string of either "up" or "down"
+ * @param returnVariable: Boolean - If true return "$scale-default" form, else return "default" or "oneUp" form.
  * @return String */
-const getScaleBasedOnNumber = function(number, direction) {
+const getScaleBasedOnNumber = function(number, direction, returnVariable) {
 
   const numberWord = numberConverter.toWords(number).replace(/ /g,'');
 
   if (number === 1) {
-    return "$scale-default";
+    return returnVariable ? "$scale-default" : "default";
   } else {
-
-    if (direction === "down") {
-      return "$scale-" + numberWord + "Down";
-    } else if (direction === "up") {
-      return "$scale-" + numberWord + "Up";
-    } else {
-      throw Error("Direction must be either 'up' or 'down'");
-    }
+    const uppercasedDirection = direction.charAt(0).toUpperCase() + direction.slice(1);
+    return returnVariable ? "$scale-" + numberWord.toLowerCase() + "-" + direction.toLowerCase() : numberWord.toLowerCase() + uppercasedDirection;
 
   }
 };
@@ -306,18 +323,24 @@ const layout = function () {
   // Need to get the appropriate $scale variable in here and pass that in when creating the
   for (let i = 0; i < PURE_LAYOUT.length; i += 1) {
 
-    for (let j = 1; j <= DATA.numberOfSizes; j += 1) {
+    let individualLayoutClasses = [];
 
-      const propertyValue = getScaleBasedOnNumber(j, "up");
-
-      pureLayoutText += singleLayoutPart({
-        className: PURE_LAYOUT[i].className,
-        properties: PURE_LAYOUT[i].properties,
-        value: propertyValue
-      });
-
+    for (j = 1; j <= DATA.numberOfSizes; j += 1) {
+      individualLayoutClasses.push(
+        singleLayoutClass({
+          className: PURE_LAYOUT[i].className,
+          scaleModifier: getScaleBasedOnNumber(j, "up", false),
+          properties: PURE_LAYOUT[i].properties,
+          scaleValue: getScaleBasedOnNumber(j, "up", true)
+        })
+      );
     }
 
+    pureLayoutText += allLayoutParts({
+      className: PURE_LAYOUT[i].className,
+      generatedClasses: individualLayoutClasses
+    });
+    
   }
 
   return pureLayoutText;
