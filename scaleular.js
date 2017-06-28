@@ -104,7 +104,7 @@ const NONPURE_LAYOUT = [
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale"
     },
-    scaleProperty: "font-size",
+    scaleProperties: ["font-size"]
 
   },
   {
@@ -115,7 +115,7 @@ const NONPURE_LAYOUT = [
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale"
     },
-    scaleProperty: "font-size",
+    scaleProperties: ["font-size"],
     colors: true,
     lineHeights: true
   },
@@ -128,7 +128,7 @@ const NONPURE_LAYOUT = [
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale"
     },
-    scaleProperty: "font-size",
+    scaleProperties: ["font-size"],
     color: true,
     lineHeights: true
   },
@@ -140,7 +140,7 @@ const NONPURE_LAYOUT = [
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale"
     },
-    scaleProperty: "font-size",
+    scaleProperties: ["font-size"],
     color: true,
     lineHeights: true
   },
@@ -256,9 +256,9 @@ const variableGenerator = function(baseFontSize, scale, numberOfVars) {
  * {
       prefix:String - "one", "two", "three", etc - Used for generating responsive layouts.
       className:String - The name of the class layout part.
-      scaleModifier:String "default", "oneUp", "twoUp", "oneDown', etc. Which size?
+      modifier:String "default", "oneUp", "twoUp", "oneDown', etc. Which size?
       properties:Array<String> The properties that this class will use. ["padding-top", etc.],
-      scaleValue: "$scale-default", "$scale-one-up", etc. Which size?
+      propertyValue: "$scale-default", "$scale-one-up", etc. Which size?
     }
   *
 */
@@ -266,12 +266,12 @@ const singleLayoutClass = doT.template(
 
   `
   {{?it.prefix}}
-  &.{{=it.prefix}}-{{=it.className}}--{{=it.scaleModifier}} {
+  &.{{=it.prefix}}-{{=it.className}}--{{=it.modifier}} {
   {{??}}
-  &.{{=it.className}}--{{=it.scaleModifier}} {
+  &.{{=it.className}}--{{=it.modifier}} {
   {{?}}
     {{~it.properties :propertyName}}
-      {{=propertyName}}: {{=it.scaleValue}}
+      {{=propertyName}}: {{=it.propertyValue}};
     {{~}}
   }`
 
@@ -307,7 +307,7 @@ const getScaleBasedOnNumber = function(number, direction, returnVariable) {
 
   const numberWord = numberConverter.toWords(number).replace(/ /g,'');
 
-  if (number === 1) {
+  if (number === 0) {
     return returnVariable ? "$scale-default" : "default";
   } else {
     const uppercasedDirection = direction.charAt(0).toUpperCase() + direction.slice(1);
@@ -316,40 +316,94 @@ const getScaleBasedOnNumber = function(number, direction, returnVariable) {
   }
 };
 
-const layout = function () {
+/*
+ * @decription - for a given classname and some properties generates all of the sizes.
+ * example: .TopSpacer { &.TopSpacer--default { padding-top: $scale-default } } but for every size, so a bunch of classes.
+ * @return String
+ */
+const generateScaledClasses = function (className, properties) {
 
-  let pureLayoutText = "";
+  let individualLayoutClasses = [];
 
-  // Need to get the appropriate $scale variable in here and pass that in when creating the
-  for (let i = 0; i < PURE_LAYOUT.length; i += 1) {
+  for (let j = 0; j <= DATA.numberOfSizes; j += 1) {
 
-    let individualLayoutClasses = [];
-
-    for (j = 1; j <= DATA.numberOfSizes; j += 1) {
-      individualLayoutClasses.push(
-        singleLayoutClass({
-          className: PURE_LAYOUT[i].className,
-          scaleModifier: getScaleBasedOnNumber(j, "up", false),
-          properties: PURE_LAYOUT[i].properties,
-          scaleValue: getScaleBasedOnNumber(j, "up", true)
-        })
-      );
-    }
-
-    pureLayoutText += allLayoutParts({
-      className: PURE_LAYOUT[i].className,
-      generatedClasses: individualLayoutClasses
-    });
-    
+    individualLayoutClasses.push(
+      singleLayoutClass({
+        className: className,
+        modifier: getScaleBasedOnNumber(j, "up", false),
+        properties: properties,
+        propertyValue: getScaleBasedOnNumber(j, "up", true)
+      })
+    );
   }
 
-  return pureLayoutText;
+  // Starting off at one this time for the "down" sizes so that --default doesn't get
+  // generated again.
+  for (let j = 1; j <= DATA.numberOfSizes; j += 1) {
+
+    individualLayoutClasses.push(
+      singleLayoutClass({
+        className: className,
+        modifier: getScaleBasedOnNumber(j, "down", false),
+        properties: properties,
+        propertyValue: getScaleBasedOnNumber(j, "down", true)
+      })
+    );
+  }
+
+  return individualLayoutClasses;
 
 };
 
-console.log("Here are the variables.");
-console.log(variableGenerator(16, 1.272, 8));
+const generatePureLayout = function () {
 
 
-console.log("Here's the initial layout (pure)");
-console.log(layout());
+    let pureLayoutText = "";
+
+    // Need to get the appropriate $scale variable in here and pass that in when creating the
+    for (let i = 0; i < PURE_LAYOUT.length; i += 1) {
+      pureLayoutText += allLayoutParts({
+        className: PURE_LAYOUT[i].className,
+        generatedClasses: generateScaledClasses(PURE_LAYOUT[i].className, PURE_LAYOUT[i].properties)
+      });
+    }
+
+    return pureLayoutText;
+};
+
+const generateNonPureLayout = function () {
+
+  // Need to get the appropriate $scale variable in here and pass that in when creating the
+  for (let i = 0; i < NONPURE_LAYOUT.length; i += 1) {
+
+
+    if ("modifiers" in NONPURE_LAYOUT[i]) {
+
+      let modifierClasses = [];
+
+      NONPURE_LAYOUT[i].modifiers.forEach(function (modifier) {
+
+        const arrayedModifierProperties = [modifier.modifierProperty];
+
+        const modifierClass = singleLayoutClass({
+          className: NONPURE_LAYOUT[i].className,
+          modifier: modifier.modifierName,
+          properties: arrayedModifierProperties,
+          propertyValue: modifier.modifierValue
+        });
+
+        modifierClasses.push(modifierClass);
+      });
+
+    }
+
+    if ("scaleProperties" in NONPURE_LAYOUT[i]) {
+      const scaledClasses = generateScaledClasses(NONPURE_LAYOUT[i].className, NON_PURELAYOUT[i].scaleProperties);
+    }
+
+  }
+
+};
+
+// console.log("pure-layout");
+// console.log(generatePureLayout());
