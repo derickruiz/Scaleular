@@ -179,5 +179,6 @@ module.exports = {
   numberOfResizePoints: DATA.numberOfResizePoints,
   numberOfSizes: DATA.numberOfSizes,
   PURE_LAYOUT: PURE_LAYOUT,
-  NON_PURELAYOUT: NONPURE_LAYOUT
+  NON_PURELAYOUT: NONPURE_LAYOUT,
+  COLORS: COLORS
 };
