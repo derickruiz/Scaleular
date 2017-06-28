@@ -1,0 +1,23 @@
+{
+  "name": "scaleular",
+  "version": "1.0.0",
+  "description": "Create responsive CSS layouts based on a scale.",
+  "main": "scaleular.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derickruiz/Scaleular.git"
+  },
+  "author": "Derick Ruiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/derickruiz/Scaleular/issues"
+  },
+  "homepage": "https://github.com/derickruiz/Scaleular#readme",
+  "devDependencies": {
+    "color-namer": "^1.1.0",
+    "number-to-words": "^1.2.3"
+  }
+}
