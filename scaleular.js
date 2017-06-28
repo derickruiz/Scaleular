@@ -90,9 +90,17 @@ const singleLayoutClass = doT.template(
 const allLayoutParts = doT.template(
   `
   .{{=it.className}} {
+
+    {{?it.defaultProperties}}
+      {{ for(var prop in it.defaultProperties) { }}
+        {{=prop}}: {{=it.defaultProperties[prop]}};
+      {{ } }}
+    {{?}}
+
     {{~it.generatedClasses :generatedClass}}
       {{=generatedClass}}
     {{~}}
+
   }
   `
 );
@@ -220,9 +228,12 @@ const generatePureLayout = function () {
 
 const generateNonPureLayout = function () {
 
+  let nonPureLayoutText = "";
+
   // Need to get the appropriate $scale variable in here and pass that in when creating the
   for (let i = 0; i < DATA.NONPURE_LAYOUT.length; i += 1) {
 
+    let allCombinedClasses = [];
 
     if ("modifiers" in DATA.NONPURE_LAYOUT[i]) {
 
@@ -240,23 +251,43 @@ const generateNonPureLayout = function () {
         });
 
         modifierClasses.push(modifierClass);
+
       });
 
+      allCombinedClasses = allCombinedClasses.concat(modifierClasses);
     }
 
     if ("scaleProperties" in DATA.NONPURE_LAYOUT[i]) {
       const scaledClasses = generateScaledClasses(DATA.NONPURE_LAYOUT[i].className, DATA.NONPURE_LAYOUT[i].scaleProperties);
+      allCombinedClasses = allCombinedClasses.concat(scaledClasses);
     }
 
-    if ("color" in DATA.NONPURE_LAYOUT[i]) {
+    if ("colors" in DATA.NONPURE_LAYOUT[i]) {
       const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className);
+      allCombinedClasses = allCombinedClasses.concat(colorClasses);
     }
 
     if ("lineHeights" in DATA.NONPURE_LAYOUT[i]) {
       const lineHeightClasses = generateLineHeightClasses(DATA.NONPURE_LAYOUT[i].className);
+      allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
     }
+
+    if ("defaultProperties" in DATA.NONPURE_LAYOUT[i]) {
+      nonPureLayoutText += allLayoutParts({
+        className: DATA.NONPURE_LAYOUT[i].className,
+        generatedClasses: allCombinedClasses,
+        defaultProperties: DATA.NONPURE_LAYOUT[i].defaultProperties
+      });
+    } else {
+      nonPureLayoutText += allLayoutParts({
+        className: DATA.NONPURE_LAYOUT[i].className,
+        generatedClasses: allCombinedClasses
+      });
+    }
+
   }
 
+  return nonPureLayoutText;
 };
 
 // What's left? Generating default-properties, colors, line-heights, and then responsive versions of everything.
@@ -264,5 +295,5 @@ const generateNonPureLayout = function () {
 // In terms of default-properties I feel like that's something `allLayoutParts` should be concerned with. Like passing it as a variable and iterating or somethign.
 // console.log("pure-layout");
 // console.log(generatePureLayout());
-
-console.log("example of line height classes", generateLineHeightClasses("Bold"));
+console.log("nonpurelayout.");
+console.log(generateNonPureLayout());
