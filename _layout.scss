@@ -1,0 +1,854 @@
+.TopSpacer { 
+
+&.TopSpacer--default {
+padding-top: $scale-default;
+}
+&.TopSpacer--oneUp { 
+padding-top: $scale-one-up;
+}
+&.TopSpacer--twoUp { 
+padding-top: $scale-two-up;
+}
+&.TopSpacer--threeUp { 
+padding-top: $scale-three-up;
+}
+&.TopSpacer--fourUp { 
+padding-top: $scale-four-up;
+}
+&.TopSpacer--fiveUp { 
+padding-top: $scale-five-up;
+}
+&.TopSpacer--sixUp { 
+padding-top: $scale-six-up;
+}
+&.TopSpacer--sevenUp { 
+padding-top: $scale-seven-up;
+}
+&.TopSpacer--eightUp { 
+padding-top: $scale-eight-up;
+}
+&.TopSpacer--nineUp { 
+padding-top: $scale-nine-up;
+}
+&.TopSpacer--tenUp { 
+padding-top: $scale-ten-up;
+}
+&.TopSpacer--elevenUp { 
+padding-top: $scale-eleven-up;
+}
+&.TopSpacer--twelveUp { 
+padding-top: $scale-twelve-up;
+}
+&.TopSpacer--thirteenUp { 
+padding-top: $scale-thirteen-up;
+}
+&.TopSpacer--fourteenUp { 
+padding-top: $scale-fourteen-up;
+}
+&.TopSpacer--fifteenUp { 
+padding-top: $scale-fifteen-up;
+}
+&.TopSpacer--sixteenUp { 
+padding-top: $scale-sixteen-up;
+}
+&.TopSpacer--seventeenUp { 
+padding-top: $scale-seventeen-up;
+}
+&.TopSpacer--eighteenUp { 
+padding-top: $scale-eighteen-up;
+}
+&.TopSpacer--nineteenUp { 
+padding-top: $scale-nineteen-up;
+}
+&.TopSpacer--twentyUp { 
+padding-top: $scale-twenty-up;
+}
+
+&.TopSpacer--oneDown { 
+padding-top: $scale-one-down;
+}
+&.TopSpacer--twoDown { 
+padding-top: $scale-two-down;
+}
+&.TopSpacer--threeDown { 
+padding-top: $scale-three-down;
+}
+&.TopSpacer--fourDown { 
+padding-top: $scale-four-down;
+}
+&.TopSpacer--fiveDown { 
+padding-top: $scale-five-down;
+}
+&.TopSpacer--sixDown { 
+padding-top: $scale-six-down;
+}
+&.TopSpacer--sevenDown { 
+padding-top: $scale-seven-down;
+}
+&.TopSpacer--eightDown { 
+padding-top: $scale-eight-down;
+}
+&.TopSpacer--nineDown { 
+padding-top: $scale-nine-down;
+}
+&.TopSpacer--tenDown { 
+padding-top: $scale-ten-down;
+}
+&.TopSpacer--elevenDown { 
+padding-top: $scale-eleven-down;
+}
+&.TopSpacer--twelveDown { 
+padding-top: $scale-twelve-down;
+}
+&.TopSpacer--thirteenDown { 
+padding-top: $scale-thirteen-down;
+}
+&.TopSpacer--fourteenDown { 
+padding-top: $scale-fourteen-down;
+}
+&.TopSpacer--fifteenDown { 
+padding-top: $scale-fifteen-down;
+}
+&.TopSpacer--sixteenDown { 
+padding-top: $scale-sixteen-down;
+}
+&.TopSpacer--seventeenDown { 
+padding-top: $scale-seventeen-down;
+}
+&.TopSpacer--eighteenDown { 
+padding-top: $scale-eighteen-down;
+}
+&.TopSpacer--nineteenDown { 
+padding-top: $scale-nineteen-down;
+}
+&.TopSpacer--twentyDown { 
+padding-top: $scale-twenty-down;
+}
+
+}
+
+.HorizontalRightSpacer { 
+
+&.HorizontalRightSpacer--default {
+padding-top: $scale-default;
+}
+&.HorizontalRightSpacer--oneUp { 
+margin-right: $scale-one-up;
+}
+&.HorizontalRightSpacer--twoUp { 
+margin-right: $scale-two-up;
+}
+&.HorizontalRightSpacer--threeUp { 
+margin-right: $scale-three-up;
+}
+&.HorizontalRightSpacer--fourUp { 
+margin-right: $scale-four-up;
+}
+&.HorizontalRightSpacer--fiveUp { 
+margin-right: $scale-five-up;
+}
+&.HorizontalRightSpacer--sixUp { 
+margin-right: $scale-six-up;
+}
+&.HorizontalRightSpacer--sevenUp { 
+margin-right: $scale-seven-up;
+}
+&.HorizontalRightSpacer--eightUp { 
+margin-right: $scale-eight-up;
+}
+&.HorizontalRightSpacer--nineUp { 
+margin-right: $scale-nine-up;
+}
+&.HorizontalRightSpacer--tenUp { 
+margin-right: $scale-ten-up;
+}
+&.HorizontalRightSpacer--elevenUp { 
+margin-right: $scale-eleven-up;
+}
+&.HorizontalRightSpacer--twelveUp { 
+margin-right: $scale-twelve-up;
+}
+&.HorizontalRightSpacer--thirteenUp { 
+margin-right: $scale-thirteen-up;
+}
+&.HorizontalRightSpacer--fourteenUp { 
+margin-right: $scale-fourteen-up;
+}
+&.HorizontalRightSpacer--fifteenUp { 
+margin-right: $scale-fifteen-up;
+}
+&.HorizontalRightSpacer--sixteenUp { 
+margin-right: $scale-sixteen-up;
+}
+&.HorizontalRightSpacer--seventeenUp { 
+margin-right: $scale-seventeen-up;
+}
+&.HorizontalRightSpacer--eighteenUp { 
+margin-right: $scale-eighteen-up;
+}
+&.HorizontalRightSpacer--nineteenUp { 
+margin-right: $scale-nineteen-up;
+}
+&.HorizontalRightSpacer--twentyUp { 
+margin-right: $scale-twenty-up;
+}
+
+&.HorizontalRightSpacer--oneDown { 
+margin-right: $scale-one-down;
+}
+&.HorizontalRightSpacer--twoDown { 
+margin-right: $scale-two-down;
+}
+&.HorizontalRightSpacer--threeDown { 
+margin-right: $scale-three-down;
+}
+&.HorizontalRightSpacer--fourDown { 
+margin-right: $scale-four-down;
+}
+&.HorizontalRightSpacer--fiveDown { 
+margin-right: $scale-five-down;
+}
+&.HorizontalRightSpacer--sixDown { 
+margin-right: $scale-six-down;
+}
+&.HorizontalRightSpacer--sevenDown { 
+margin-right: $scale-seven-down;
+}
+&.HorizontalRightSpacer--eightDown { 
+margin-right: $scale-eight-down;
+}
+&.HorizontalRightSpacer--nineDown { 
+margin-right: $scale-nine-down;
+}
+&.HorizontalRightSpacer--tenDown { 
+margin-right: $scale-ten-down;
+}
+&.HorizontalRightSpacer--elevenDown { 
+margin-right: $scale-eleven-down;
+}
+&.HorizontalRightSpacer--twelveDown { 
+margin-right: $scale-twelve-down;
+}
+&.HorizontalRightSpacer--thirteenDown { 
+margin-right: $scale-thirteen-down;
+}
+&.HorizontalRightSpacer--fourteenDown { 
+margin-right: $scale-fourteen-down;
+}
+&.HorizontalRightSpacer--fifteenDown { 
+margin-right: $scale-fifteen-down;
+}
+&.HorizontalRightSpacer--sixteenDown { 
+margin-right: $scale-sixteen-down;
+}
+&.HorizontalRightSpacer--seventeenDown { 
+margin-right: $scale-seventeen-down;
+}
+&.HorizontalRightSpacer--eighteenDown { 
+margin-right: $scale-eighteen-down;
+}
+&.HorizontalRightSpacer--nineteenDown { 
+margin-right: $scale-nineteen-down;
+}
+&.HorizontalRightSpacer--twentyDown { 
+margin-right: $scale-twenty-down;
+}
+
+}
+
+.HorizontalLeftSpacer { 
+
+&.HorizontalLeftSpacer--default {
+padding-top: $scale-default;
+}
+&.HorizontalLeftSpacer--oneUp { 
+margin-left: $scale-one-up;
+}
+&.HorizontalLeftSpacer--twoUp { 
+margin-left: $scale-two-up;
+}
+&.HorizontalLeftSpacer--threeUp { 
+margin-left: $scale-three-up;
+}
+&.HorizontalLeftSpacer--fourUp { 
+margin-left: $scale-four-up;
+}
+&.HorizontalLeftSpacer--fiveUp { 
+margin-left: $scale-five-up;
+}
+&.HorizontalLeftSpacer--sixUp { 
+margin-left: $scale-six-up;
+}
+&.HorizontalLeftSpacer--sevenUp { 
+margin-left: $scale-seven-up;
+}
+&.HorizontalLeftSpacer--eightUp { 
+margin-left: $scale-eight-up;
+}
+&.HorizontalLeftSpacer--nineUp { 
+margin-left: $scale-nine-up;
+}
+&.HorizontalLeftSpacer--tenUp { 
+margin-left: $scale-ten-up;
+}
+&.HorizontalLeftSpacer--elevenUp { 
+margin-left: $scale-eleven-up;
+}
+&.HorizontalLeftSpacer--twelveUp { 
+margin-left: $scale-twelve-up;
+}
+&.HorizontalLeftSpacer--thirteenUp { 
+margin-left: $scale-thirteen-up;
+}
+&.HorizontalLeftSpacer--fourteenUp { 
+margin-left: $scale-fourteen-up;
+}
+&.HorizontalLeftSpacer--fifteenUp { 
+margin-left: $scale-fifteen-up;
+}
+&.HorizontalLeftSpacer--sixteenUp { 
+margin-left: $scale-sixteen-up;
+}
+&.HorizontalLeftSpacer--seventeenUp { 
+margin-left: $scale-seventeen-up;
+}
+&.HorizontalLeftSpacer--eighteenUp { 
+margin-left: $scale-eighteen-up;
+}
+&.HorizontalLeftSpacer--nineteenUp { 
+margin-left: $scale-nineteen-up;
+}
+&.HorizontalLeftSpacer--twentyUp { 
+margin-left: $scale-twenty-up;
+}
+
+&.HorizontalLeftSpacer--oneDown { 
+margin-left: $scale-one-down;
+}
+&.HorizontalLeftSpacer--twoDown { 
+margin-left: $scale-two-down;
+}
+&.HorizontalLeftSpacer--threeDown { 
+margin-left: $scale-three-down;
+}
+&.HorizontalLeftSpacer--fourDown { 
+margin-left: $scale-four-down;
+}
+&.HorizontalLeftSpacer--fiveDown { 
+margin-left: $scale-five-down;
+}
+&.HorizontalLeftSpacer--sixDown { 
+margin-left: $scale-six-down;
+}
+&.HorizontalLeftSpacer--sevenDown { 
+margin-left: $scale-seven-down;
+}
+&.HorizontalLeftSpacer--eightDown { 
+margin-left: $scale-eight-down;
+}
+&.HorizontalLeftSpacer--nineDown { 
+margin-left: $scale-nine-down;
+}
+&.HorizontalLeftSpacer--tenDown { 
+margin-left: $scale-ten-down;
+}
+&.HorizontalLeftSpacer--elevenDown { 
+margin-left: $scale-eleven-down;
+}
+&.HorizontalLeftSpacer--twelveDown { 
+margin-left: $scale-twelve-down;
+}
+&.HorizontalLeftSpacer--thirteenDown { 
+margin-left: $scale-thirteen-down;
+}
+&.HorizontalLeftSpacer--fourteenDown { 
+margin-left: $scale-fourteen-down;
+}
+&.HorizontalLeftSpacer--fifteenDown { 
+margin-left: $scale-fifteen-down;
+}
+&.HorizontalLeftSpacer--sixteenDown { 
+margin-left: $scale-sixteen-down;
+}
+&.HorizontalLeftSpacer--seventeenDown { 
+margin-left: $scale-seventeen-down;
+}
+&.HorizontalLeftSpacer--eighteenDown { 
+margin-left: $scale-eighteen-down;
+}
+&.HorizontalLeftSpacer--nineteenDown { 
+margin-left: $scale-nineteen-down;
+}
+&.HorizontalLeftSpacer--twentyDown { 
+margin-left: $scale-twenty-down;
+}
+
+}
+
+.BottomSpacer { 
+
+&.BottomSpacer--default {
+padding-top: $scale-default;
+}
+&.BottomSpacer--oneUp { 
+margin-bottom: $scale-one-up;
+}
+&.BottomSpacer--twoUp { 
+margin-bottom: $scale-two-up;
+}
+&.BottomSpacer--threeUp { 
+margin-bottom: $scale-three-up;
+}
+&.BottomSpacer--fourUp { 
+margin-bottom: $scale-four-up;
+}
+&.BottomSpacer--fiveUp { 
+margin-bottom: $scale-five-up;
+}
+&.BottomSpacer--sixUp { 
+margin-bottom: $scale-six-up;
+}
+&.BottomSpacer--sevenUp { 
+margin-bottom: $scale-seven-up;
+}
+&.BottomSpacer--eightUp { 
+margin-bottom: $scale-eight-up;
+}
+&.BottomSpacer--nineUp { 
+margin-bottom: $scale-nine-up;
+}
+&.BottomSpacer--tenUp { 
+margin-bottom: $scale-ten-up;
+}
+&.BottomSpacer--elevenUp { 
+margin-bottom: $scale-eleven-up;
+}
+&.BottomSpacer--twelveUp { 
+margin-bottom: $scale-twelve-up;
+}
+&.BottomSpacer--thirteenUp { 
+margin-bottom: $scale-thirteen-up;
+}
+&.BottomSpacer--fourteenUp { 
+margin-bottom: $scale-fourteen-up;
+}
+&.BottomSpacer--fifteenUp { 
+margin-bottom: $scale-fifteen-up;
+}
+&.BottomSpacer--sixteenUp { 
+margin-bottom: $scale-sixteen-up;
+}
+&.BottomSpacer--seventeenUp { 
+margin-bottom: $scale-seventeen-up;
+}
+&.BottomSpacer--eighteenUp { 
+margin-bottom: $scale-eighteen-up;
+}
+&.BottomSpacer--nineteenUp { 
+margin-bottom: $scale-nineteen-up;
+}
+&.BottomSpacer--twentyUp { 
+margin-bottom: $scale-twenty-up;
+}
+
+&.BottomSpacer--oneDown { 
+margin-bottom: $scale-one-down;
+}
+&.BottomSpacer--twoDown { 
+margin-bottom: $scale-two-down;
+}
+&.BottomSpacer--threeDown { 
+margin-bottom: $scale-three-down;
+}
+&.BottomSpacer--fourDown { 
+margin-bottom: $scale-four-down;
+}
+&.BottomSpacer--fiveDown { 
+margin-bottom: $scale-five-down;
+}
+&.BottomSpacer--sixDown { 
+margin-bottom: $scale-six-down;
+}
+&.BottomSpacer--sevenDown { 
+margin-bottom: $scale-seven-down;
+}
+&.BottomSpacer--eightDown { 
+margin-bottom: $scale-eight-down;
+}
+&.BottomSpacer--nineDown { 
+margin-bottom: $scale-nine-down;
+}
+&.BottomSpacer--tenDown { 
+margin-bottom: $scale-ten-down;
+}
+&.BottomSpacer--elevenDown { 
+margin-bottom: $scale-eleven-down;
+}
+&.BottomSpacer--twelveDown { 
+margin-bottom: $scale-twelve-down;
+}
+&.BottomSpacer--thirteenDown { 
+margin-bottom: $scale-thirteen-down;
+}
+&.BottomSpacer--fourteenDown { 
+margin-bottom: $scale-fourteen-down;
+}
+&.BottomSpacer--fifteenDown { 
+margin-bottom: $scale-fifteen-down;
+}
+&.BottomSpacer--sixteenDown { 
+margin-bottom: $scale-sixteen-down;
+}
+&.BottomSpacer--seventeenDown { 
+margin-bottom: $scale-seventeen-down;
+}
+&.BottomSpacer--eighteenDown { 
+margin-bottom: $scale-eighteen-down;
+}
+&.BottomSpacer--nineteenDown { 
+margin-bottom: $scale-nineteen-down;
+}
+&.BottomSpacer--twentyDown { 
+margin-bottom: $scale-twenty-down;
+}
+
+}
+
+.HorizontalConstrainer { 
+
+&.HorizontalConstrainer--default {
+padding-top: $scale-default;
+}
+&.HorizontalConstrainer--oneUp { 
+padding-left: $scale-one-up;
+padding-right: $scale-one-up;
+}
+&.HorizontalConstrainer--twoUp { 
+padding-left: $scale-two-up;
+padding-right: $scale-two-up;
+}
+&.HorizontalConstrainer--threeUp { 
+padding-left: $scale-three-up;
+padding-right: $scale-three-up;
+}
+&.HorizontalConstrainer--fourUp { 
+padding-left: $scale-four-up;
+padding-right: $scale-four-up;
+}
+&.HorizontalConstrainer--fiveUp { 
+padding-left: $scale-five-up;
+padding-right: $scale-five-up;
+}
+&.HorizontalConstrainer--sixUp { 
+padding-left: $scale-six-up;
+padding-right: $scale-six-up;
+}
+&.HorizontalConstrainer--sevenUp { 
+padding-left: $scale-seven-up;
+padding-right: $scale-seven-up;
+}
+&.HorizontalConstrainer--eightUp { 
+padding-left: $scale-eight-up;
+padding-right: $scale-eight-up;
+}
+&.HorizontalConstrainer--nineUp { 
+padding-left: $scale-nine-up;
+padding-right: $scale-nine-up;
+}
+&.HorizontalConstrainer--tenUp { 
+padding-left: $scale-ten-up;
+padding-right: $scale-ten-up;
+}
+&.HorizontalConstrainer--elevenUp { 
+padding-left: $scale-eleven-up;
+padding-right: $scale-eleven-up;
+}
+&.HorizontalConstrainer--twelveUp { 
+padding-left: $scale-twelve-up;
+padding-right: $scale-twelve-up;
+}
+&.HorizontalConstrainer--thirteenUp { 
+padding-left: $scale-thirteen-up;
+padding-right: $scale-thirteen-up;
+}
+&.HorizontalConstrainer--fourteenUp { 
+padding-left: $scale-fourteen-up;
+padding-right: $scale-fourteen-up;
+}
+&.HorizontalConstrainer--fifteenUp { 
+padding-left: $scale-fifteen-up;
+padding-right: $scale-fifteen-up;
+}
+&.HorizontalConstrainer--sixteenUp { 
+padding-left: $scale-sixteen-up;
+padding-right: $scale-sixteen-up;
+}
+&.HorizontalConstrainer--seventeenUp { 
+padding-left: $scale-seventeen-up;
+padding-right: $scale-seventeen-up;
+}
+&.HorizontalConstrainer--eighteenUp { 
+padding-left: $scale-eighteen-up;
+padding-right: $scale-eighteen-up;
+}
+&.HorizontalConstrainer--nineteenUp { 
+padding-left: $scale-nineteen-up;
+padding-right: $scale-nineteen-up;
+}
+&.HorizontalConstrainer--twentyUp { 
+padding-left: $scale-twenty-up;
+padding-right: $scale-twenty-up;
+}
+
+&.HorizontalConstrainer--oneDown { 
+padding-left: $scale-one-down;
+padding-right: $scale-one-down;
+}
+&.HorizontalConstrainer--twoDown { 
+padding-left: $scale-two-down;
+padding-right: $scale-two-down;
+}
+&.HorizontalConstrainer--threeDown { 
+padding-left: $scale-three-down;
+padding-right: $scale-three-down;
+}
+&.HorizontalConstrainer--fourDown { 
+padding-left: $scale-four-down;
+padding-right: $scale-four-down;
+}
+&.HorizontalConstrainer--fiveDown { 
+padding-left: $scale-five-down;
+padding-right: $scale-five-down;
+}
+&.HorizontalConstrainer--sixDown { 
+padding-left: $scale-six-down;
+padding-right: $scale-six-down;
+}
+&.HorizontalConstrainer--sevenDown { 
+padding-left: $scale-seven-down;
+padding-right: $scale-seven-down;
+}
+&.HorizontalConstrainer--eightDown { 
+padding-left: $scale-eight-down;
+padding-right: $scale-eight-down;
+}
+&.HorizontalConstrainer--nineDown { 
+padding-left: $scale-nine-down;
+padding-right: $scale-nine-down;
+}
+&.HorizontalConstrainer--tenDown { 
+padding-left: $scale-ten-down;
+padding-right: $scale-ten-down;
+}
+&.HorizontalConstrainer--elevenDown { 
+padding-left: $scale-eleven-down;
+padding-right: $scale-eleven-down;
+}
+&.HorizontalConstrainer--twelveDown { 
+padding-left: $scale-twelve-down;
+padding-right: $scale-twelve-down;
+}
+&.HorizontalConstrainer--thirteenDown { 
+padding-left: $scale-thirteen-down;
+padding-right: $scale-thirteen-down;
+}
+&.HorizontalConstrainer--fourteenDown { 
+padding-left: $scale-fourteen-down;
+padding-right: $scale-fourteen-down;
+}
+&.HorizontalConstrainer--fifteenDown { 
+padding-left: $scale-fifteen-down;
+padding-right: $scale-fifteen-down;
+}
+&.HorizontalConstrainer--sixteenDown { 
+padding-left: $scale-sixteen-down;
+padding-right: $scale-sixteen-down;
+}
+&.HorizontalConstrainer--seventeenDown { 
+padding-left: $scale-seventeen-down;
+padding-right: $scale-seventeen-down;
+}
+&.HorizontalConstrainer--eighteenDown { 
+padding-left: $scale-eighteen-down;
+padding-right: $scale-eighteen-down;
+}
+&.HorizontalConstrainer--nineteenDown { 
+padding-left: $scale-nineteen-down;
+padding-right: $scale-nineteen-down;
+}
+&.HorizontalConstrainer--twentyDown { 
+padding-left: $scale-twenty-down;
+padding-right: $scale-twenty-down;
+}
+
+}
+
+.VerticalConstrainer { 
+
+&.VerticalConstrainer--default {
+padding-top: $scale-default;
+}
+&.VerticalConstrainer--oneUp { 
+padding-top: $scale-one-up;
+padding-bottom: $scale-one-up;
+}
+&.VerticalConstrainer--twoUp { 
+padding-top: $scale-two-up;
+padding-bottom: $scale-two-up;
+}
+&.VerticalConstrainer--threeUp { 
+padding-top: $scale-three-up;
+padding-bottom: $scale-three-up;
+}
+&.VerticalConstrainer--fourUp { 
+padding-top: $scale-four-up;
+padding-bottom: $scale-four-up;
+}
+&.VerticalConstrainer--fiveUp { 
+padding-top: $scale-five-up;
+padding-bottom: $scale-five-up;
+}
+&.VerticalConstrainer--sixUp { 
+padding-top: $scale-six-up;
+padding-bottom: $scale-six-up;
+}
+&.VerticalConstrainer--sevenUp { 
+padding-top: $scale-seven-up;
+padding-bottom: $scale-seven-up;
+}
+&.VerticalConstrainer--eightUp { 
+padding-top: $scale-eight-up;
+padding-bottom: $scale-eight-up;
+}
+&.VerticalConstrainer--nineUp { 
+padding-top: $scale-nine-up;
+padding-bottom: $scale-nine-up;
+}
+&.VerticalConstrainer--tenUp { 
+padding-top: $scale-ten-up;
+padding-bottom: $scale-ten-up;
+}
+&.VerticalConstrainer--elevenUp { 
+padding-top: $scale-eleven-up;
+padding-bottom: $scale-eleven-up;
+}
+&.VerticalConstrainer--twelveUp { 
+padding-top: $scale-twelve-up;
+padding-bottom: $scale-twelve-up;
+}
+&.VerticalConstrainer--thirteenUp { 
+padding-top: $scale-thirteen-up;
+padding-bottom: $scale-thirteen-up;
+}
+&.VerticalConstrainer--fourteenUp { 
+padding-top: $scale-fourteen-up;
+padding-bottom: $scale-fourteen-up;
+}
+&.VerticalConstrainer--fifteenUp { 
+padding-top: $scale-fifteen-up;
+padding-bottom: $scale-fifteen-up;
+}
+&.VerticalConstrainer--sixteenUp { 
+padding-top: $scale-sixteen-up;
+padding-bottom: $scale-sixteen-up;
+}
+&.VerticalConstrainer--seventeenUp { 
+padding-top: $scale-seventeen-up;
+padding-bottom: $scale-seventeen-up;
+}
+&.VerticalConstrainer--eighteenUp { 
+padding-top: $scale-eighteen-up;
+padding-bottom: $scale-eighteen-up;
+}
+&.VerticalConstrainer--nineteenUp { 
+padding-top: $scale-nineteen-up;
+padding-bottom: $scale-nineteen-up;
+}
+&.VerticalConstrainer--twentyUp { 
+padding-top: $scale-twenty-up;
+padding-bottom: $scale-twenty-up;
+}
+
+&.VerticalConstrainer--oneDown { 
+padding-top: $scale-one-down;
+padding-bottom: $scale-one-down;
+}
+&.VerticalConstrainer--twoDown { 
+padding-top: $scale-two-down;
+padding-bottom: $scale-two-down;
+}
+&.VerticalConstrainer--threeDown { 
+padding-top: $scale-three-down;
+padding-bottom: $scale-three-down;
+}
+&.VerticalConstrainer--fourDown { 
+padding-top: $scale-four-down;
+padding-bottom: $scale-four-down;
+}
+&.VerticalConstrainer--fiveDown { 
+padding-top: $scale-five-down;
+padding-bottom: $scale-five-down;
+}
+&.VerticalConstrainer--sixDown { 
+padding-top: $scale-six-down;
+padding-bottom: $scale-six-down;
+}
+&.VerticalConstrainer--sevenDown { 
+padding-top: $scale-seven-down;
+padding-bottom: $scale-seven-down;
+}
+&.VerticalConstrainer--eightDown { 
+padding-top: $scale-eight-down;
+padding-bottom: $scale-eight-down;
+}
+&.VerticalConstrainer--nineDown { 
+padding-top: $scale-nine-down;
+padding-bottom: $scale-nine-down;
+}
+&.VerticalConstrainer--tenDown { 
+padding-top: $scale-ten-down;
+padding-bottom: $scale-ten-down;
+}
+&.VerticalConstrainer--elevenDown { 
+padding-top: $scale-eleven-down;
+padding-bottom: $scale-eleven-down;
+}
+&.VerticalConstrainer--twelveDown { 
+padding-top: $scale-twelve-down;
+padding-bottom: $scale-twelve-down;
+}
+&.VerticalConstrainer--thirteenDown { 
+padding-top: $scale-thirteen-down;
+padding-bottom: $scale-thirteen-down;
+}
+&.VerticalConstrainer--fourteenDown { 
+padding-top: $scale-fourteen-down;
+padding-bottom: $scale-fourteen-down;
+}
+&.VerticalConstrainer--fifteenDown { 
+padding-top: $scale-fifteen-down;
+padding-bottom: $scale-fifteen-down;
+}
+&.VerticalConstrainer--sixteenDown { 
+padding-top: $scale-sixteen-down;
+padding-bottom: $scale-sixteen-down;
+}
+&.VerticalConstrainer--seventeenDown { 
+padding-top: $scale-seventeen-down;
+padding-bottom: $scale-seventeen-down;
+}
+&.VerticalConstrainer--eighteenDown { 
+padding-top: $scale-eighteen-down;
+padding-bottom: $scale-eighteen-down;
+}
+&.VerticalConstrainer--nineteenDown { 
+padding-top: $scale-nineteen-down;
+padding-bottom: $scale-nineteen-down;
+}
+&.VerticalConstrainer--twentyDown { 
+padding-top: $scale-twenty-down;
+padding-bottom: $scale-twenty-down;
+}
+
+}
+
