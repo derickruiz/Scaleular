@@ -3,6 +3,7 @@ const UTILS = require("./utils.js");
 const doT = require('dot');
 const numberConverter = require('number-to-words');
 const colorNamer = require('color-namer');
+const fs = require('fs');
 
 /* Gets the next level down for the scale given the base font size. */
 const getDownRemNumber = function (baseFontSize, scale, number) {
@@ -105,6 +106,13 @@ const allLayoutParts = doT.template(
   `
 );
 
+const responsiveLayoutShell = doT.template(
+  `
+  @media #{$resizePoint-{{=it.resizePoint}}} {
+    {{=it.responsiveGeneratedLayoutClasses}}
+  }
+  `
+);
 /*
  * @description - Returns the appropriate $scale variable based on the number that's passed in
  * @param number:Integer
@@ -129,19 +137,25 @@ const getScaleBasedOnNumber = function(number, direction, returnVariable) {
  * example: .TopSpacer { &.TopSpacer--default { padding-top: $scale-default } } but for every size, so a bunch of classes.
  * @return String
  */
-const generateScaledClasses = function (className, properties) {
+const generateScaledClasses = function (className, properties, prefix) {
 
   let individualLayoutClasses = [];
 
   for (let j = 0; j <= DATA.numberOfSizes; j += 1) {
 
+    let individualLayoutObj = {
+      className: className,
+      modifier: getScaleBasedOnNumber(j, "up", false),
+      properties: properties,
+      propertyValue: getScaleBasedOnNumber(j, "up", true)
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      individualLayoutObj.prefix = prefix;
+    }
+
     individualLayoutClasses.push(
-      singleLayoutClass({
-        className: className,
-        modifier: getScaleBasedOnNumber(j, "up", false),
-        properties: properties,
-        propertyValue: getScaleBasedOnNumber(j, "up", true)
-      })
+      singleLayoutClass(individualLayoutObj)
     );
   }
 
@@ -149,13 +163,19 @@ const generateScaledClasses = function (className, properties) {
   // generated again.
   for (let j = 1; j <= DATA.numberOfSizes; j += 1) {
 
+    let singleLayoutObj = {
+      className: className,
+      modifier: getScaleBasedOnNumber(j, "down", false),
+      properties: properties,
+      propertyValue: getScaleBasedOnNumber(j, "down", true)
+    }
+
+    if (typeof prefix !== "undefined" && prefix) {
+      singleLayoutObj.prefix = prefix;
+    }
+
     individualLayoutClasses.push(
-      singleLayoutClass({
-        className: className,
-        modifier: getScaleBasedOnNumber(j, "down", false),
-        properties: properties,
-        propertyValue: getScaleBasedOnNumber(j, "down", true)
-      })
+      singleLayoutClass(singleLayoutObj)
     );
   }
 
@@ -167,19 +187,26 @@ const generateScaledClasses = function (className, properties) {
  * @description - Generates custom css classes for each color in DATA.COLORS given a className.
  * @example: &.Bold--mediumBlue { color: $40300; }
  * TODO: Right now just immeditely puts the color in there, but would be cool to generate variables first and use that instead of the direct HEX code. */
-const generateColorClasses = function (className) {
+const generateColorClasses = function (className, prefix) {
 
   const colorClasses = [];
 
   for (let i = 0; i < DATA.COLORS.length; i += 1) {
     const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name);
+
+    let singleLayoutObj = {
+      className: className,
+      modifier: customColorName,
+      properties: ["color"],
+      propertyValue: DATA.COLORS[i]
+    }
+
+    if (typeof prefix !== "undefined" && prefix) {
+      singleLayoutObj.prefix = prefix;
+    }
+
     colorClasses.push(
-      singleLayoutClass({
-        className: className,
-        modifier: customColorName,
-        properties: ["color"],
-        propertyValue: DATA.COLORS[i]
-      })
+      singleLayoutClass(singleLayoutObj)
     );
   }
 
@@ -190,27 +217,34 @@ const generateColorClasses = function (className) {
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
  * @example: &.Bold--lineHeightOneFour{ line-height: 1.4; }
  * TODO: Put variables in there instead. */
-const generateLineHeightClasses = function (className) {
+const generateLineHeightClasses = function (className, prefix) {
 
-  const classes = [];
+  let classes = [];
 
   for (let i = 0; i < DATA.LINE_HEIGHTS.length; i += 1) {
 
+    let singleLayoutObj = {
+      className: className,
+      modifier: "lineHeight" + UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
+      properties: ["line-height"],
+      propertyValue: DATA.LINE_HEIGHTS[i]
+    }
+
+    if (typeof prefix !== "undefined" && prefix) {
+      singleLayoutObj.prefix = prefix;
+    }
+
     classes.push(
-      singleLayoutClass({
-        className: className,
-        modifier: "lineHeight" + UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
-        properties: ["line-height"],
-        propertyValue: DATA.LINE_HEIGHTS[i]
-      })
+      singleLayoutClass(singleLayoutObj)
     );
 
   }
 
   return classes;
+
 };
 
-const generatePureLayout = function () {
+const generatePureLayout = function (prefix) {
 
 
     let pureLayoutText = "";
@@ -219,14 +253,14 @@ const generatePureLayout = function () {
     for (let i = 0; i < DATA.PURE_LAYOUT.length; i += 1) {
       pureLayoutText += allLayoutParts({
         className: DATA.PURE_LAYOUT[i].className,
-        generatedClasses: generateScaledClasses(DATA.PURE_LAYOUT[i].className, DATA.PURE_LAYOUT[i].properties)
+        generatedClasses: generateScaledClasses(DATA.PURE_LAYOUT[i].className, DATA.PURE_LAYOUT[i].properties, prefix)
       });
     }
 
     return pureLayoutText;
 };
 
-const generateNonPureLayout = function () {
+const generateNonPureLayout = function (prefix) {
 
   let nonPureLayoutText = "";
 
@@ -243,12 +277,18 @@ const generateNonPureLayout = function () {
 
         const arrayedModifierProperties = [modifier.modifierProperty];
 
-        const modifierClass = singleLayoutClass({
+        let singleLayoutObj = {
           className: DATA.NONPURE_LAYOUT[i].className,
           modifier: modifier.modifierName,
           properties: arrayedModifierProperties,
           propertyValue: modifier.modifierValue
-        });
+        };
+
+        if (typeof prefix !== "undefined" && prefix) {
+          singleLayoutObj.prefix = prefix;
+        }
+
+        const modifierClass = singleLayoutClass(singleLayoutObj);
 
         modifierClasses.push(modifierClass);
 
@@ -258,17 +298,17 @@ const generateNonPureLayout = function () {
     }
 
     if ("scaleProperties" in DATA.NONPURE_LAYOUT[i]) {
-      const scaledClasses = generateScaledClasses(DATA.NONPURE_LAYOUT[i].className, DATA.NONPURE_LAYOUT[i].scaleProperties);
+      const scaledClasses = generateScaledClasses(DATA.NONPURE_LAYOUT[i].className, DATA.NONPURE_LAYOUT[i].scaleProperties, prefix);
       allCombinedClasses = allCombinedClasses.concat(scaledClasses);
     }
 
     if ("colors" in DATA.NONPURE_LAYOUT[i]) {
-      const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className);
+      const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className, prefix);
       allCombinedClasses = allCombinedClasses.concat(colorClasses);
     }
 
     if ("lineHeights" in DATA.NONPURE_LAYOUT[i]) {
-      const lineHeightClasses = generateLineHeightClasses(DATA.NONPURE_LAYOUT[i].className);
+      const lineHeightClasses = generateLineHeightClasses(DATA.NONPURE_LAYOUT[i].className, prefix);
       allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
     }
 
@@ -290,10 +330,50 @@ const generateNonPureLayout = function () {
   return nonPureLayoutText;
 };
 
-// What's left? Generating default-properties, colors, line-heights, and then responsive versions of everything.
+const generateResponsiveLayout = function (resizePoint) {
 
-// In terms of default-properties I feel like that's something `allLayoutParts` should be concerned with. Like passing it as a variable and iterating or somethign.
-// console.log("pure-layout");
-// console.log(generatePureLayout());
-console.log("nonpurelayout.");
-console.log(generateNonPureLayout());
+  let responsiveLayout = "";
+
+  const resizePointWord = numberConverter.toWords(resizePoint);
+
+  responsiveLayout += generatePureLayout(resizePointWord);
+  responsiveLayout += generateNonPureLayout(resizePointWord);
+
+  return responsiveLayoutShell({
+    resizePoint: resizePointWord,
+    responsiveGeneratedLayoutClasses: responsiveLayout
+  });
+
+};
+
+const generateEntireLayout = function () {
+  let result = "";
+
+  result += generatePureLayout();
+  result += generateNonPureLayout();
+
+  // Go through each of the sizes and generate the correct classes with the right prefixes for them.
+
+
+  for (let i = 1; i <= DATA.numberOfResizePoints; i += 1) {
+    result += generateResponsiveLayout(i);
+  }
+
+  return result;
+
+};
+
+const putGeneratedLayoutIntoFile = function () {
+
+  const entireLayout = generateEntireLayout();
+
+  fs.writeFile("./_generated.scss", entireLayout, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log("The file was saved!");
+  });
+
+};
+
+putGeneratedLayoutIntoFile();
