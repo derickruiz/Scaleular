@@ -1,7 +1,8 @@
 const DATA = {
   baseFontSize: 16,
   scale: 1.272,
-  numberOfResizePoints: 6
+  numberOfResizePoints: 6,
+  numberOfSizes: 8
 };
 
 const VARIABLES = `
@@ -198,7 +199,7 @@ const NONPURE_LAYOUT = [
 //   value: "block"
 // });
 
-// const doT = require('dot');
+const doT = require('dot');
 const numberConverter = require('number-to-words');
 // const colorNamer = require('color-namer');
 
@@ -220,7 +221,7 @@ const getDownRemNumber = function (baseFontSize, scale, number) {
 
 }
 
-const generateVariables = function(baseFontSize, scale, numberOfVars) {
+const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
   let output = "";
 
@@ -246,6 +247,86 @@ const generateVariables = function(baseFontSize, scale, numberOfVars) {
 
 }
 
-console.log(generateVariables(DATA.baseFontSize, DATA.scale, DATA.numberOfResizePoints));
+// STEP 2. Generate the layout.
 
-// STEP 2. Generate default layout
+const singleLayoutPart = doT.template(
+
+  `
+  {{?it.prefix}}
+  .{{=it.prefix}}-{{=it.className}} {
+  {{??}}
+  .{{=it.className}} {
+  {{?}}
+    {{~it.properties :propertyName}}
+      {{=propertyName}}: {{=it.value}}
+    {{~}}
+   {{=it.property}}: {{=it.value}}
+  }`
+
+);
+
+
+// I need a function that now generates the entire tree actually
+// in the format of
+
+// .TopSpacer {
+//   &.TopSpacer--default {
+//
+//   }
+// }
+
+/*
+ * @description - Returns the appropriate $scale variable based on the number that's passed in
+ * @param number:Integer
+ * @param direction:String - The string of either "up" or "down"
+ * @return String */
+const getScaleBasedOnNumber = function(number, direction) {
+
+  const numberWord = numberConverter.toWords(number).replace(/ /g,'');
+
+  if (number === 1) {
+    return "$scale-default";
+  } else {
+
+    if (direction === "down") {
+      return "$scale-" + numberWord + "Down";
+    } else if (direction === "up") {
+      return "$scale-" + numberWord + "Up";
+    } else {
+      throw Error("Direction must be either 'up' or 'down'");
+    }
+
+  }
+};
+
+const layout = function () {
+
+  let pureLayoutText = "";
+
+  // Need to get the appropriate $scale variable in here and pass that in when creating the
+  for (let i = 0; i < PURE_LAYOUT.length; i += 1) {
+
+    for (let j = 1; j <= DATA.numberOfSizes; j += 1) {
+
+      const propertyValue = getScaleBasedOnNumber(j, "up");
+
+      pureLayoutText += singleLayoutPart({
+        className: PURE_LAYOUT[i].className,
+        properties: PURE_LAYOUT[i].properties,
+        value: propertyValue
+      });
+
+    }
+
+  }
+
+  return pureLayoutText;
+
+};
+
+console.log("Here are the variables.");
+console.log(variableGenerator(16, 1.272, 8));
+
+
+console.log("Here's the initial layout (pure)");
+console.log(layout());
