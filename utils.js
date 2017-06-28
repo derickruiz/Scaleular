@@ -1,3 +1,5 @@
+const numberConverter = require('number-to-words');
+
 /*
  * @source: https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
  */
@@ -7,6 +9,40 @@ function camelize(str) {
   }).replace(/\s+/g, '');
 }
 
-module.exports {
-  camelize: camelize
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/* @description: Take a decimal 1.4 for example and generate a string "oneFour"; */
+function decimalToWord(decimal) {
+
+  console.log("decimalToWord");
+  console.log("decimal", decimal);
+
+  let result = "";
+
+  let splitDecimal;
+
+  // If it's just a normal
+  if (decimal.indexOf(".") !== -1) {
+
+    let splitDecimal = decimal.split(".");
+
+    result += numberConverter.toWords(splitDecimal[0]).toLowerCase();
+
+    splitDecimal[1].split("").forEach(function (individualNumber) {
+      result += capitalize(numberConverter.toWords(individualNumber));
+    });
+
+  } else { // If it's just a normal number, just go ahead and convert that into a word.
+    result += numberConverter.toWords(decimal).toLowerCase();
+  }
+
+  return result;
+}
+
+module.exports = {
+  camelize: camelize,
+  decimalToWord: decimalToWord,
+  capitalize: capitalize
 }
