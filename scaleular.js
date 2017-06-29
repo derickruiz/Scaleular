@@ -244,41 +244,44 @@ const generateLineHeightClasses = function (className, prefix) {
 
 };
 
-const generatePureLayout = function (prefix) {
-
-
-    let pureLayoutText = "";
-
-    // Need to get the appropriate $scale variable in here and pass that in when creating the
-    for (let i = 0; i < DATA.PURE_LAYOUT.length; i += 1) {
-      pureLayoutText += allLayoutParts({
-        className: DATA.PURE_LAYOUT[i].className,
-        generatedClasses: generateScaledClasses(DATA.PURE_LAYOUT[i].className, DATA.PURE_LAYOUT[i].properties, prefix)
-      });
-    }
-
-    return pureLayoutText;
+const generateGridClasses = function () {
+  // &.Grid--full > .Grid-cell { flex: 0 0 100%; }
+  // &.Grid--gutters {
+  //   margin-left: -$scale-default;
+  // }
+  //
+  // &.Grid--gutters > .Grid-cell {
+  //   padding-left: $scale-default;
+  // }
+  //
+  // &.Grid--guttersFourDown {
+  //   margin-left: -$scale-four-down;
+  // }
+  //
+  // &.Grid--guttersFourDown > .Grid-cell {
+  //   padding-left: $scale-four-down;
+  // }
 };
 
-const generateNonPureLayout = function (prefix) {
+const generateLayout = function (prefix) {
 
-  let nonPureLayoutText = "";
+  let layoutText = "";
 
   // Need to get the appropriate $scale variable in here and pass that in when creating the
-  for (let i = 0; i < DATA.NONPURE_LAYOUT.length; i += 1) {
+  for (let i = 0; i < DATA.LAYOUT.length; i += 1) {
 
     let allCombinedClasses = [];
 
-    if ("modifiers" in DATA.NONPURE_LAYOUT[i]) {
+    if ("modifiers" in DATA.LAYOUT[i]) {
 
       let modifierClasses = [];
 
-      DATA.NONPURE_LAYOUT[i].modifiers.forEach(function (modifier) {
+      DATA.LAYOUT[i].modifiers.forEach(function (modifier) {
 
         const arrayedModifierProperties = [modifier.modifierProperty];
 
         let singleLayoutObj = {
-          className: DATA.NONPURE_LAYOUT[i].className,
+          className: DATA.LAYOUT[i].className,
           modifier: modifier.modifierName,
           properties: arrayedModifierProperties,
           propertyValue: modifier.modifierValue
@@ -297,37 +300,43 @@ const generateNonPureLayout = function (prefix) {
       allCombinedClasses = allCombinedClasses.concat(modifierClasses);
     }
 
-    if ("scaleProperties" in DATA.NONPURE_LAYOUT[i]) {
-      const scaledClasses = generateScaledClasses(DATA.NONPURE_LAYOUT[i].className, DATA.NONPURE_LAYOUT[i].scaleProperties, prefix);
+    if ("scaleProperties" in DATA.LAYOUT[i]) {
+      const scaledClasses = generateScaledClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].scaleProperties, prefix);
       allCombinedClasses = allCombinedClasses.concat(scaledClasses);
     }
 
-    if ("colors" in DATA.NONPURE_LAYOUT[i]) {
-      const colorClasses = generateColorClasses(DATA.NONPURE_LAYOUT[i].className, prefix);
+    if ("colors" in DATA.LAYOUT[i]) {
+      const colorClasses = generateColorClasses(DATA.LAYOUT[i].className, prefix);
       allCombinedClasses = allCombinedClasses.concat(colorClasses);
     }
 
-    if ("lineHeights" in DATA.NONPURE_LAYOUT[i]) {
-      const lineHeightClasses = generateLineHeightClasses(DATA.NONPURE_LAYOUT[i].className, prefix);
+    if ("lineHeights" in DATA.LAYOUT[i]) {
+      const lineHeightClasses = generateLineHeightClasses(DATA.LAYOUT[i].className, prefix);
       allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
     }
 
-    if ("defaultProperties" in DATA.NONPURE_LAYOUT[i]) {
-      nonPureLayoutText += allLayoutParts({
-        className: DATA.NONPURE_LAYOUT[i].className,
+    if ("grid" in DATA.LAYOUT[i]) {
+      // const gridClasses = generateGridClasses();
+      // const gridCellClasses = generateGridCellClasses();
+      // allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
+    }
+
+    if ("defaultProperties" in DATA.LAYOUT[i]) {
+      layoutText += allLayoutParts({
+        className: DATA.LAYOUT[i].className,
         generatedClasses: allCombinedClasses,
-        defaultProperties: DATA.NONPURE_LAYOUT[i].defaultProperties
+        defaultProperties: DATA.LAYOUT[i].defaultProperties
       });
     } else {
-      nonPureLayoutText += allLayoutParts({
-        className: DATA.NONPURE_LAYOUT[i].className,
+      layoutText += allLayoutParts({
+        className: DATA.LAYOUT[i].className,
         generatedClasses: allCombinedClasses
       });
     }
 
   }
 
-  return nonPureLayoutText;
+  return layoutText;
 };
 
 const generateResponsiveLayout = function (resizePoint) {
@@ -336,8 +345,7 @@ const generateResponsiveLayout = function (resizePoint) {
 
   const resizePointWord = numberConverter.toWords(resizePoint);
 
-  responsiveLayout += generatePureLayout(resizePointWord);
-  responsiveLayout += generateNonPureLayout(resizePointWord);
+  responsiveLayout += generateLayout(resizePointWord);
 
   return responsiveLayoutShell({
     resizePoint: resizePointWord,
@@ -352,9 +360,7 @@ const generateEntireLayout = function () {
   result += DATA.VARIABLES + "\n";
   result += variableGenerator(DATA.baseFontSize, DATA.scale, DATA.numberOfSizes) + "\n\n";
 
-  result += generatePureLayout();
-  result += generateNonPureLayout();
-
+  result += generateLayout();
   // Go through each of the sizes and generate the correct classes with the right prefixes for them.
 
 
