@@ -64,10 +64,26 @@ function objectFromArrays(firstArray, secondArray) {
   return obj;
 }
 
+/*
+ * @description - Takes any value, and returns an array with that value duplicated n times.
+ * @return Array */
+
+function duplicateArrayValue(value, n) {
+
+  let array = [];
+
+  for (let i = 0; i < n; i += 1) {
+    array.push(value);
+  }
+
+  return array;
+}
+
 module.exports = {
   camelize: camelize,
   decimalToWord: decimalToWord,
   capitalize: capitalize,
   toArray: toArray,
-  objectFromArrays: objectFromArrays
+  objectFromArrays: objectFromArrays,
+  duplicateArrayValue: duplicateArrayValue
 }
