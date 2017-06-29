@@ -69,7 +69,7 @@ const singleLayoutClass = doT.template(
   {{?it.prefix}}
   &.{{=it.prefix}}-{{=it.className}}--{{=it.modifier}} {
   {{??}}
-  &.{{=it.className}}--{{=it.modifier}} {
+  &.{{=it.className}}--{{=it.modifier}}{{?it.child}} > {{=it.child}}{{?}} {
   {{?}}
     {{ for(var prop in it.propertyKeyValues) { }}
       {{=prop}}: {{=it.propertyKeyValues[prop]}};
@@ -209,6 +209,10 @@ const generateModifierClasses = function (className, modifiers, prefix) {
       propertyKeyValues: propertyKeyValues
     };
 
+    if (typeof modifier.child !== "undefined" && modifier.child) {
+      singleLayoutObj.child = modifier.child;
+    }
+
     if (typeof prefix !== "undefined" && prefix) {
       singleLayoutObj.prefix = prefix;
     }
@@ -267,8 +271,7 @@ const generateLineHeightClasses = function (className, prefix) {
     let singleLayoutObj = {
       className: className,
       modifier: "lineHeight" + UTILS.decimalToWord(DATA.LINE_HEIGHTS[i]),
-      properties: ["line-height"],
-      propertyValue: DATA.LINE_HEIGHTS[i]
+      propertyKeyValues: UTILS.objectFromArrays(["line-height"], [DATA.LINE_HEIGHTS[i]])
     }
 
     if (typeof prefix !== "undefined" && prefix) {
@@ -341,7 +344,7 @@ const generateLayout = function (prefix) {
     }
 
     if ("grid" in DATA.LAYOUT[i]) {
-      // const gridClasses = generateGridClasses();
+      // const gridClasses = generateGridClasses(DATA.LAYOUT[i].className, prefix);
       // const gridCellClasses = generateGridCellClasses();
       // allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
     }
@@ -444,8 +447,5 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 // console.log("generateScaledClasses");
 // console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
 
-console.log("generateColorClasses (background)");
-console.log(generateColorClasses(DATA.LAYOUT[0].className, true));
-
-console.log("generateColorClasses (color)");
-console.log(generateColorClasses(DATA.LAYOUT[1].className, false));
+console.log("generateModifierClasses");
+console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
