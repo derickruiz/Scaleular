@@ -1,5 +1,19 @@
 const UTILS = require("./utils.js");
 
+test("UTILS.objectFromArrays", function (assert) {
+
+  const modifierProperties = ["flex-direction", "justify-content"],
+        modifierValues     = ["column", "center"];
+
+  const correctAnswer = {
+    "flex-direction": "column",
+    "justify-content": "center"
+  };
+
+  assert.deepEqual(UTILS.objectFromArrays(modifierProperties, modifierValues), correctAnswer);
+
+});
+
 test("UTILS.decimalToWord", function (assert) {
 
     let decimalToWords = [{
