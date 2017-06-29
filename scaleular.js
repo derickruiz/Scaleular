@@ -58,6 +58,43 @@ const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
 }
 
+
+const COLOR_CACHE = (function () {
+
+  let names = {};
+  let colors = {};
+
+  for (let i = 0; i < DATA.COLORS.length; i += 1) {
+
+    let customColorName;
+
+    if (typeof colors[DATA.COLORS[i]] === "undefined") {
+
+      let iterator = 0;
+
+      customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
+
+      while (names[customColorName]) { // The name already exists so use another one.
+        customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
+
+        if (typeof names[customColorName] === undefined) {
+          names[customColorName] = true;
+        }
+
+        iterator += 1;
+      }
+
+      colors[DATA.COLORS[i]] = customColorName;
+
+    } else {
+      customColorName = colors[DATA.COLORS[i]];
+    }
+  }
+
+  return colors;
+
+}());
+
 // STEP 2. Generate the layout.
 
 /*
@@ -248,37 +285,8 @@ let generateColorClasses = function (className, isBackgroundColor, prefix) {
 
   for (let i = 0; i < DATA.COLORS.length; i += 1) {
 
-    let customColorName;
-
-    console.log("generateColorClasses.nameCache", generateColorClasses.nameCache);
-    console.log("generateColorClasses.colorCache", generateColorClasses.colorCache);
-
-    if (typeof generateColorClasses.colorCache[DATA.COLORS[i]] === "undefined") {
-
-      let iterator = 0;
-
-      customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
-
-      while (generateColorClasses.nameCache[customColorName]) { // The name already exists so use another one.
-        console.log("while");
-        console.log("customColorName", customColorName);
-        customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
-
-        if (typeof generateColorClasses.nameCache[customColorName] === undefined) {
-          generateColorClasses.nameCache[customColorName] = true;
-        }
-
-        iterator += 1;
-      }
-
-      generateColorClasses.colorCache[DATA.COLORS[i]] = customColorName;
-
-    } else {
-      customColorName = generateColorClasses.colorCache[DATA.COLORS[i]];
-    }
-
-    const colorOrBackground = isBackgroundColor ? ["backgroundColor"] : ["color"];
-
+    const customColorName = COLOR_CACHE[DATA.COLORS[i]],
+          colorOrBackground = isBackgroundColor ? ["backgroundColor"] : ["color"];
 
     let singleLayoutObj = {
       className: className,
@@ -297,9 +305,6 @@ let generateColorClasses = function (className, isBackgroundColor, prefix) {
 
   return colorClasses;
 };
-
-generateColorClasses.colorCache = {};
-generateColorClasses.nameCache = {}; // "abbey": true Just a cache to see if the name is already used.
 
 /*
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
