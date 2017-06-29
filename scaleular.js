@@ -119,17 +119,22 @@ const responsiveLayoutShell = doT.template(
  * @param direction:String - The string of either "up" or "down"
  * @param returnVariable: Boolean - If true return "$scale-default" form, else return "default" or "oneUp" form.
  * @return String */
-const getScaleBasedOnNumber = function(number, direction, returnVariable) {
+const getScaleBasedOnNumber = function(number, direction, options) {
+
+  options = options || {};
+  let returnValue = "";
 
   const numberWord = numberConverter.toWords(number).replace(/ /g,'');
 
   if (number === 0) {
-    return returnVariable ? "$scale-default" : "default";
+    returnValue = options.variable ? "$scale-default" : "default";
   } else {
     const uppercasedDirection = UTILS.capitalize(direction);
-    return returnVariable ? "$scale-" + numberWord.toLowerCase() + "-" + direction.toLowerCase() : numberWord.toLowerCase() + uppercasedDirection;
-
+    returnValue = options.variable ? "$scale-" + numberWord.toLowerCase() + "-" + direction.toLowerCase() : numberWord.toLowerCase() + uppercasedDirection;
   }
+
+  return options.negative ? "-" + returnValue : returnValue;
+
 };
 
 /*
@@ -141,20 +146,16 @@ const generateScaledClasses = function (className, properties, prefix) {
 
   let individualLayoutClasses = [];
 
-  console.log("generateScaledClasses");
-
   for (let j = 0; j <= DATA.numberOfSizes; j += 1) {
 
     const positiveKeyPropertyValues = UTILS.objectFromArrays(
       UTILS.toArray(properties),
-      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", true), properties.length)
+      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", { variable: true }), properties.length)
     );
-
-    console.log("positiveKeyPropertyValues", positiveKeyPropertyValues);
 
     let positiveLayoutObj = {
       className: className,
-      modifier: getScaleBasedOnNumber(j, "up", false),
+      modifier: getScaleBasedOnNumber(j, "up"),
       propertyKeyValues: positiveKeyPropertyValues
     };
 
@@ -173,12 +174,12 @@ const generateScaledClasses = function (className, properties, prefix) {
 
     const negativeKeyPropertyValues = UTILS.objectFromArrays(
       UTILS.toArray(properties),
-      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", true), properties.length)
+      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", {variable: true}), properties.length)
     );
 
     let negativeLayoutObj = {
       className: className,
-      modifier: getScaleBasedOnNumber(j, "down", false),
+      modifier: getScaleBasedOnNumber(j, "down"),
       propertyKeyValues: negativeKeyPropertyValues
     };
 
@@ -288,23 +289,99 @@ const generateLineHeightClasses = function (className, prefix) {
 
 };
 
-const generateGridClasses = function () {
-  // &.Grid--full > .Grid-cell { flex: 0 0 100%; }
-  // &.Grid--gutters {
-  //   margin-left: -$scale-default;
-  // }
-  //
-  // &.Grid--gutters > .Grid-cell {
-  //   padding-left: $scale-default;
-  // }
-  //
-  // &.Grid--guttersFourDown {
-  //   margin-left: -$scale-four-down;
-  // }
-  //
-  // &.Grid--guttersFourDown > .Grid-cell {
-  //   padding-left: $scale-four-down;
-  // }
+const generateGridGutterClasses = function (className, prefix) {
+
+
+  let individualLayoutClasses = [];
+
+  // Step 1. Generate the negative margin classes (positive scale)
+
+  for (let j = 0; j <= DATA.numberOfSizes; j += 1) {
+
+    const positiveKeyPropertyValues = UTILS.objectFromArrays(
+      ["margin-left"],
+      UTILS.toArray(getScaleBasedOnNumber(j, "up", {
+        variable: true,
+        negative: true
+      }))
+    );
+
+    let positiveLayoutObj = {
+      className: className,
+      modifier: "gutters" + UTILS.capitalize(getScaleBasedOnNumber(j, "up")),
+      propertyKeyValues: positiveKeyPropertyValues
+    };
+
+    const negativeKeyPropertyValues = UTILS.objectFromArrays(
+      ["margin-left"],
+      UTILS.toArray(getScaleBasedOnNumber(j, "down", {
+        variable: true,
+        negative: true
+      }))
+    );
+
+    let negativeLayoutObj = {
+      className: className,
+      modifier: "gutters" + UTILS.capitalize(getScaleBasedOnNumber(j, "down")),
+      propertyKeyValues: negativeKeyPropertyValues
+    };
+
+    // Step 2. Generate the padding classes (positive scale)
+
+    const gridChildPropertyValues = UTILS.objectFromArrays(
+      ["padding-left"],
+      UTILS.toArray(getScaleBasedOnNumber(j, "up", {
+        variable: true
+      }))
+    );
+
+    let gridChildLayoutObj = {
+      className: className,
+      child: ".Grid-cell",
+      modifier: "gutters" + UTILS.capitalize(getScaleBasedOnNumber(j, "up")),
+      propertyKeyValues: gridChildPropertyValues
+    };
+
+    const gridChildNegativePropertyValues = UTILS.objectFromArrays(
+      ["padding-left"],
+      UTILS.toArray(getScaleBasedOnNumber(j, "down", {
+        variable: true
+      }))
+    );
+
+    let gridChildNegativeLayoutObj = {
+      className: className,
+      child: ".Grid-cell",
+      modifier: "gutters" + UTILS.capitalize(getScaleBasedOnNumber(j, "down")),
+      propertyKeyValues: gridChildNegativePropertyValues
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      positiveLayoutObj.prefix = prefix;
+      gridChildLayoutObj.prefix = prefix;
+      negativeLayoutObj.prefix = prefix;
+      gridChildNegativeLayoutObj.prefix = prefix;
+    }
+
+    individualLayoutClasses.push(
+      singleLayoutClass(positiveLayoutObj),
+      singleLayoutClass(gridChildLayoutObj)
+    );
+
+    if (j >= 1) {
+
+      individualLayoutClasses.push(
+        singleLayoutClass(negativeLayoutObj),
+        singleLayoutClass(gridChildNegativeLayoutObj)
+      );
+
+    }
+
+  }
+
+
+  return individualLayoutClasses;
+
 };
 
 const generateLayout = function (prefix) {
@@ -343,11 +420,17 @@ const generateLayout = function (prefix) {
       allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
     }
 
-    if ("grid" in DATA.LAYOUT[i]) {
-      // const gridClasses = generateGridClasses(DATA.LAYOUT[i].className, prefix);
-      // const gridCellClasses = generateGridCellClasses();
-      // allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
+    if ("gutters" in DATA.LAYOUT[i]) {
+      const gridGutterClasses = generateGridGutterClasses(DATA.LAYOUT[i].className, prefix);
+      allCombinedClasses = allCombinedClasses.concat(gridGutterClasses);
     }
+
+    // columns: 8,
+    // pushers: true,
+    // pullers: true,
+    // order: true
+    // const gridCellClasses = generateGridCellClasses();
+    // allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
 
     if ("defaultProperties" in DATA.LAYOUT[i]) {
       layoutText += allLayoutParts({
@@ -447,5 +530,8 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 // console.log("generateScaledClasses");
 // console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
 
-console.log("generateModifierClasses");
-console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
+// // console.log("generateModifierClasses");
+// console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
+
+console.log("generateGridGutterClasses");
+console.log(generateGridGutterClasses(DATA.LAYOUT[0].className));
