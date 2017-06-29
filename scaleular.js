@@ -227,19 +227,19 @@ const generateModifierClasses = function (className, modifiers, prefix) {
  * @description - Generates custom css classes for each color in DATA.COLORS given a className.
  * @example: &.Bold--mediumBlue { color: $40300; }
  * TODO: Right now just immeditely puts the color in there, but would be cool to generate variables first and use that instead of the direct HEX code. */
-const generateColorClasses = function (className, prefix, isBackgroundColor) {
+const generateColorClasses = function (className, isBackgroundColor, prefix) {
 
   const colorClasses = [];
 
   for (let i = 0; i < DATA.COLORS.length; i += 1) {
 
-    const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name);
+    const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name),
+          colorOrBackground = isBackgroundColor ? ["backgroundColor"] : ["color"];
 
     let singleLayoutObj = {
       className: className,
       modifier: customColorName,
-      properties: isBackgroundColor ? ["backgroundColor"] : ["color"],
-      propertyValue: DATA.COLORS[i]
+      propertyKeyValues: UTILS.objectFromArrays(colorOrBackground, [DATA.COLORS[i]])
     }
 
     if (typeof prefix !== "undefined" && prefix) {
@@ -331,7 +331,7 @@ const generateLayout = function (prefix) {
     }
 
     if ("backgroundColors" in DATA.LAYOUT[i]) {
-      const backgroundColorClasses = generateColorClasses(DATA.LAYOUT[i].className, prefix, true);
+      const backgroundColorClasses = generateColorClasses(DATA.LAYOUT[i].className, true, prefix);
       allCombinedClasses = allCombinedClasses.concat(backgroundColorClasses);
     }
 
@@ -441,5 +441,11 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 // console.log("generateModifierClasses");
 // console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
 
-console.log("generateScaledClasses");
-console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
+// console.log("generateScaledClasses");
+// console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
+
+console.log("generateColorClasses (background)");
+console.log(generateColorClasses(DATA.LAYOUT[0].className, true));
+
+console.log("generateColorClasses (color)");
+console.log(generateColorClasses(DATA.LAYOUT[1].className, false));
