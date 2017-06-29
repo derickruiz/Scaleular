@@ -71,9 +71,9 @@ const singleLayoutClass = doT.template(
   {{??}}
   &.{{=it.className}}--{{=it.modifier}} {
   {{?}}
-    {{~it.properties :propertyName}}
-      {{=propertyName}}: {{=it.propertyValue}};
-    {{~}}
+    {{ for(var prop in it.propertyKeyValues) { }}
+      {{=prop}}: {{=it.propertyKeyValues[prop]}};
+    {{ } }}
   }`
 
 );
@@ -141,21 +141,29 @@ const generateScaledClasses = function (className, properties, prefix) {
 
   let individualLayoutClasses = [];
 
+  console.log("generateScaledClasses");
+
   for (let j = 0; j <= DATA.numberOfSizes; j += 1) {
 
-    let individualLayoutObj = {
+    const positiveKeyPropertyValues = UTILS.objectFromArrays(
+      UTILS.toArray(properties),
+      UTILS.toArray(getScaleBasedOnNumber(j, "up", true))
+    );
+
+    console.log("positiveKeyPropertyValues", positiveKeyPropertyValues);
+
+    let positiveLayoutObj = {
       className: className,
       modifier: getScaleBasedOnNumber(j, "up", false),
-      properties: properties,
-      propertyValue: getScaleBasedOnNumber(j, "up", true)
+      propertyKeyValues: positiveKeyPropertyValues
     };
 
     if (typeof prefix !== "undefined" && prefix) {
-      individualLayoutObj.prefix = prefix;
+      positiveLayoutObj.prefix = prefix;
     }
 
     individualLayoutClasses.push(
-      singleLayoutClass(individualLayoutObj)
+      singleLayoutClass(positiveLayoutObj)
     );
   }
 
@@ -163,23 +171,55 @@ const generateScaledClasses = function (className, properties, prefix) {
   // generated again.
   for (let j = 1; j <= DATA.numberOfSizes; j += 1) {
 
-    let singleLayoutObj = {
+    const negativeKeyPropertyValues = UTILS.objectFromArrays(
+      UTILS.toArray(properties),
+      UTILS.toArray(getScaleBasedOnNumber(j, "down", true))
+    );
+
+    let negativeLayoutObj = {
       className: className,
       modifier: getScaleBasedOnNumber(j, "down", false),
-      properties: properties,
-      propertyValue: getScaleBasedOnNumber(j, "down", true)
+      propertyKeyValues: negativeKeyPropertyValues
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      negativeLayoutObj.prefix = prefix;
     }
+
+    individualLayoutClasses.push(
+      singleLayoutClass(negativeLayoutObj)
+    );
+  }
+
+  return individualLayoutClasses;
+
+};
+
+const generateModifierClasses = function (className, modifiers, prefix) {
+
+  let modifierClasses = [];
+
+  modifiers.forEach(function (modifier) {
+
+    const propertyKeyValues = UTILS.objectFromArrays(UTILS.toArray(modifier.modifierProperty), UTILS.toArray(modifier.modifierValue));
+
+    let singleLayoutObj = {
+      className: className,
+      modifier: modifier.modifierName,
+      propertyKeyValues: propertyKeyValues
+    };
 
     if (typeof prefix !== "undefined" && prefix) {
       singleLayoutObj.prefix = prefix;
     }
 
-    individualLayoutClasses.push(
-      singleLayoutClass(singleLayoutObj)
-    );
-  }
+    const modifierClass = singleLayoutClass(singleLayoutObj);
 
-  return individualLayoutClasses;
+    modifierClasses.push(modifierClass);
+
+  });
+
+  return modifierClasses;
 
 };
 
@@ -274,30 +314,9 @@ const generateLayout = function (prefix) {
 
     if ("modifiers" in DATA.LAYOUT[i]) {
 
-      let modifierClasses = [];
-
-      DATA.LAYOUT[i].modifiers.forEach(function (modifier) {
-
-        const arrayedModifierProperties = [modifier.modifierProperty];
-
-        let singleLayoutObj = {
-          className: DATA.LAYOUT[i].className,
-          modifier: modifier.modifierName,
-          properties: arrayedModifierProperties,
-          propertyValue: modifier.modifierValue
-        };
-
-        if (typeof prefix !== "undefined" && prefix) {
-          singleLayoutObj.prefix = prefix;
-        }
-
-        const modifierClass = singleLayoutClass(singleLayoutObj);
-
-        modifierClasses.push(modifierClass);
-
-      });
-
+      const modifierClasses = generateModifierClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].modifiers, prefix);
       allCombinedClasses = allCombinedClasses.concat(modifierClasses);
+
     }
 
     if ("scaleProperties" in DATA.LAYOUT[i]) {
@@ -411,4 +430,10 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
   });
 };
 
-putGeneratedLayoutIntoFile(true);
+// putGeneratedLayoutIntoFile(true);
+
+// console.log("generateModifierClasses");
+// console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
+
+console.log("generateScaledClasses");
+console.log(generateScaledClasses(DATA.LAYOUT[1].className, DATA.LAYOUT[1].scaleProperty));
