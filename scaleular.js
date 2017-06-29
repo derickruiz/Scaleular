@@ -424,6 +424,76 @@ const generateGridColumnClasses = function (className, numberOfColumns, prefix) 
   return layoutClasses;
 }
 
+const generatePusherPullerClasses = function (className, numberToMove, options, prefix) {
+
+  options = options || {};
+
+  let layoutClasses = [];
+
+  for (let i = 1; i < numberToMove; i += 1) {
+
+    const propertyToGenerate =
+
+    options.moveOption === "pull" ?
+      getScaleBasedOnNumber(i, "up", { variable: true, negative: true}) :
+      getScaleBasedOnNumber(i, "up", { variable: true});
+
+    const positiveKeyPropertyValues = UTILS.objectFromArrays(
+      ["margin-left"],
+      [propertyToGenerate]
+    );
+
+    let layoutObj = {
+      className: className,
+      modifier: options.moveOption + i,
+      propertyKeyValues: positiveKeyPropertyValues
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      layoutObj.prefix = prefix;
+    }
+
+    layoutClasses.push(
+      singleLayoutClass(layoutObj)
+    );
+
+  }
+
+  return layoutClasses;
+
+};
+
+const generateOrderClasses = function (className, numberOfOrders, prefix) {
+
+  let layoutClasses = [];
+
+  for (let i = 1; i <= numberOfOrders; i += 1) {
+
+    const positiveKeyPropertyValues = UTILS.objectFromArrays(
+      ["order"],
+      [i]
+    );
+
+    let layoutObj = {
+      className: className,
+      modifier: "order" + i,
+      propertyKeyValues: positiveKeyPropertyValues
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      layoutObj.prefix = prefix;
+    }
+
+    layoutClasses.push(
+      singleLayoutClass(layoutObj)
+    );
+
+  }
+
+  return layoutClasses;
+
+};
+
 const generateLayout = function (prefix) {
 
   let layoutText = "";
@@ -466,13 +536,30 @@ const generateLayout = function (prefix) {
     }
 
     // columns: 8,
-    // pushers: true,
-    // pullers: true,
-    // order: true
 
     if ("columns" in DATA.LAYOUT[i]) {
       const gridColumnColumns = generateGridColumnClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].columns, prefix);
       allCombinedClasses = allCombinedClasses.concat(gridColumnColumns);
+    }
+
+    // pushers: true,
+    // pullers: true,
+
+    if ("pushers" in DATA.LAYOUT[i]) {
+      const pusherClasses = generatePusherPullerClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].pushers, {pusher: true}, prefix);
+      allCombinedClasses = allCombinedClasses.concat(pusherClasses);
+    }
+
+    if ("pullers" in DATA.LAYOUT[i]) {
+      const pullerClasses = generatePusherPullerClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].pullers, {puller: true}, prefix);
+      allCombinedClasses = allCombinedClasses.concat(pullerClasses);
+    }
+
+    // order: true
+
+    if ("order" in DATA.LAYOUT[i]) {
+      const orderClasses = generateOrderClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].order);
+      allCombinedClasses = allCombinedClasses.concat(orderClasses);
     }
 
     if ("defaultProperties" in DATA.LAYOUT[i]) {
@@ -565,19 +652,5 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
   });
 };
 
-// putGeneratedLayoutIntoFile(true);
 
-// console.log("generateModifierClasses");
-// console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
-
-// console.log("generateScaledClasses");
-// console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
-
-// // console.log("generateModifierClasses");
-// console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
-
-// console.log("generateGridGutterClasses");
-// console.log(generateGridGutterClasses(DATA.LAYOUT[0].className));
-
-console.log("generateGridColumnClasses");
-console.log(generateGridColumnClasses("Grid-cell", 8));
+putGeneratedLayoutIntoFile(true);
