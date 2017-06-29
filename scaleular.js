@@ -22,6 +22,16 @@ const getDownRemNumber = function (baseFontSize, scale, number) {
 
 }
 
+/*
+ * @description - Returns the percentage of i to n.
+ * @example: getPercentage(1, 8) is = 12.5;
+ * @return String
+ */
+const getPercentage = function(i, n) {
+  const outOf100 = 100 / n;
+  return outOf100 * i;
+}
+
 const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
   let output = "";
@@ -384,6 +394,36 @@ const generateGridGutterClasses = function (className, prefix) {
 
 };
 
+const generateGridColumnClasses = function (className, numberOfColumns, prefix) {
+
+  let layoutClasses = [];
+
+  for (let i = 1; i < numberOfColumns; i += 1) {
+
+    const positiveKeyPropertyValues = UTILS.objectFromArrays(
+      ["flex"],
+      ["0 0 " + getPercentage(i, numberOfColumns) + "%"]
+    );
+
+    let layoutObj = {
+      className: className,
+      modifier: i + "of" + numberOfColumns,
+      propertyKeyValues: positiveKeyPropertyValues
+    };
+
+    if (typeof prefix !== "undefined" && prefix) {
+      layoutObj.prefix = prefix;
+    }
+
+    layoutClasses.push(
+      singleLayoutClass(layoutObj)
+    );
+
+  }
+
+  return layoutClasses;
+}
+
 const generateLayout = function (prefix) {
 
   let layoutText = "";
@@ -429,8 +469,11 @@ const generateLayout = function (prefix) {
     // pushers: true,
     // pullers: true,
     // order: true
-    // const gridCellClasses = generateGridCellClasses();
-    // allCombinedClasses = allCombinedClasses.concat(lineHeightClasses);
+
+    if ("columns" in DATA.LAYOUT[i]) {
+      const gridColumnColumns = generateGridColumnClasses(DATA.LAYOUT[i].className, DATA.LAYOUT[i].columns, prefix);
+      allCombinedClasses = allCombinedClasses.concat(gridColumnColumns);
+    }
 
     if ("defaultProperties" in DATA.LAYOUT[i]) {
       layoutText += allLayoutParts({
@@ -533,5 +576,8 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 // // console.log("generateModifierClasses");
 // console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
 
-console.log("generateGridGutterClasses");
-console.log(generateGridGutterClasses(DATA.LAYOUT[0].className));
+// console.log("generateGridGutterClasses");
+// console.log(generateGridGutterClasses(DATA.LAYOUT[0].className));
+
+console.log("generateGridColumnClasses");
+console.log(generateGridColumnClasses("Grid-cell", 8));
