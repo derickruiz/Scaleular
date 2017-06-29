@@ -38,8 +38,42 @@ function decimalToWord(decimal) {
   return result;
 }
 
+function isArray(someValue) {
+  return Object.prototype.toString.call(someValue) === '[object Array]';
+}
+
+/*
+ * @description: Takes a string and returns that string inside of an array, or returns the array if its' already an array.
+ * @return Array
+ */
+function toArray(someValue) {
+  if (isArray(someValue)) {
+    return someValue;
+  } else {
+    return [someValue];
+  }
+}
+
+function objectFromArrays(firstArray, secondArray) {
+
+  console.log("UTILS.objectFromArrays");
+  
+  let obj = {};
+
+  for (let i = 0; i < firstArray.length; i += 1) {
+    obj[firstArray[i]] = secondArray[i];
+  }
+
+  console.log("obj", obj);
+
+  return obj;
+
+}
+
 module.exports = {
   camelize: camelize,
   decimalToWord: decimalToWord,
-  capitalize: capitalize
+  capitalize: capitalize,
+  toArray: toArray,
+  objectFromArrays: objectFromArrays
 }
