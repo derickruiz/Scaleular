@@ -21,34 +21,7 @@ const VARIABLES = `
 const LINE_HEIGHTS = ["1", "1.2", "1.25", "1.3", "1.5", "1.618", "2"];
 const COLORS = ["#4C4C4C", "#42ACEE", "#0007DC"];
 
-const PURE_LAYOUT = [
-  {
-    className: "TopSpacer",
-    properties: ["padding-top"]
-  },
-  {
-    className: "BottomSpacer",
-    properties: ["padding-bottom"]
-  },
-  {
-    className: "RightSpacer",
-    properties: ["margin-left"]
-  },
-  {
-    className: "LeftSpacer",
-    properties: ["margin-left"]
-  },
-  {
-    className: "HorizontalConstrainer",
-    properties: ["padding-left", "padding-right"]
-  },
-  {
-    className: "VerticalConstrainer",
-    properties: ["padding-top", "padding-bottom"]
-  }
-];
-
-const NONPURE_LAYOUT = [
+const LAYOUT = [
   {
     className: "TextAligner",
     modifiers: [
@@ -149,6 +122,19 @@ const NONPURE_LAYOUT = [
     colors: true,
     lineHeights: true
   },
+  // Light (font)
+  {
+    className: "Light",
+    defaultProperties: {
+      "font-family": "$fontFamily-lightText",
+      "font-weight": "normal",
+      "-webkit-font-smoothing": "antialiased",
+      "-moz-osx-font-smoothing": "grayscale"
+    },
+    scaleProperties: ["font-size"],
+    colors: true,
+    lineHeights: true
+  },
   {
     className: "Grid",
     defaultProperties: {
@@ -173,18 +159,229 @@ const NONPURE_LAYOUT = [
         modifierName:     "reverse",
         modifierProperty: "flex-direction",
         modifierValue:    "row-reverse"
-      }
-    ]
-  }
-];
+      },
+      {
+        modifierName:     "full",
+        modifierProperty: "flex",
+        child: ".Grid-cell"
+        modifierValue:    "0 0 100%"
+      },
+    ],
+    gutters: true
+  },
+  {
+    className: "Grid-cell",
+    defaultProperties: {
+      "flex": "1",
+    },
+    modifiers: [
+      {
+        modifierName:     "flex",
+        modifierProperty: "display",
+        modifierValue:    "flex"
+      },
+      {
+        modifierName:     "autoSize",
+        modifierProperty: "flex",
+        modifierValue:    "none"
+      },
+      {
+        modifierName: "auto",
+        modifierProperty: "flex",
+        modifierValue: "auto"
+      },
+      {
+        modifierName:     "pushRight",
+        modifierProperty: "margin-left",
+        modifierValue:    "auto"
+      },
+      {
+        modifierName:     "alignLeft",
+        modifierProperty: "align-self",
+        modifierValue::   "flex-start"
+      },
+      {
+        modifierName:     "alignCenter",
+        modifierProperty: "align-self",
+        modifierValue::   "center"
+      },
+      {
+        modifierName:     "alignBottom",
+        modifierProperty: "align-self",
+        modifierValue::   "flex-end"
+      },
+      {
+        modifierName: "relative",
+        modifierProperty: "position",
+        modifierValue: "relative"
+      },
+      {
+        modifierName:     "alignEnd",
+        modifierProperty: "justify-content",
+        modifierValue::   "flex-end"
+      },
+    ],
+    columns: 8,
+    pushers: true,
+    pullers: true,
+    order: true
+  },
+
+  {
+    className: "HorizontalConstrainer",
+    modifiers: [{
+      modifierName:     "leftNoSpace",
+      modifierProperty: "padding-left",
+      modifierValue::   "0"
+    },
+    {
+      modifierName:     "rightNoSpace",
+      modifierProperty: "padding-right",
+      modifierValue::   "0"
+    }],
+    scaleProperties: ["padding-left", "padding-right"]
+  },
+
+  // TopPositioner
+
+  {
+    className: "TopPositioner",
+    modifiers: [{
+      modifierName: "absolute",
+      modifierProperty: "position",
+      modifierValue: "absolute"
+    },
+    {
+      modifierName: "relative",
+      modifierProperty: "position",
+      modifierValue: "relative"
+    }],
+    scaleProperties: ["top"]
+  },
+
+  // BottomPositioner
+  {
+    className: "BottomPositioner",
+    modifiers: [{
+      modifierName: "absolute",
+      modifierProperty: "position",
+      modifierValue: "absolute"
+    },
+    {
+      modifierName: "relative",
+      modifierProperty: "position",
+      modifierValue: "relative"
+    }],
+    scaleProperties: ["bottom"]
+  },
+
+  // Section (with colors)
+  {
+    className: "Background",
+    backgroundColors: true
+  },
+
+  // Flex
+
+  {
+    className: "Flex",
+    defaultProperties: {
+      "display": "flex"
+    },
+    modifiers: [{
+      modifierName: "full",
+      modifierProperty: "flex",
+      modifierValue: "0 0 100%"
+    },
+    {
+      modifierName: "center",
+      modifierProperty: ["flex-direction", "justify-content"],
+      modifierValue: ["column", "center"]
+    }],
+  },
+
+  // FlexItem
+
+  {
+    className: "FlexItem",
+    modifiers: [{
+      modifierName: "alignCenter",
+      modifierProperty: "align-self",
+      modifierValue: "center"
+    }]
+  },
+
+  // Cursor
+  {
+    className: "Cursor",
+    modifiers: [{
+      modifierName: "pointer",
+      modifierProperty: "cursor",
+      moifierValue: "pointer"
+    }]
+  },
+
+  {
+    className: "TopSpacer",
+    modifiers: [{
+      modifierName: "reset",
+      modifierProperty: "padding-top",
+      modifierValue: "0"
+    }],
+    scaleProperties: ["padding-top"]
+  },
+  {
+    className: "BottomSpacer",
+    modifiers: [{
+      modifierName: "reset",
+      modifierProperty: "padding-bottom",
+      modifierValue: "0"
+    }],
+    scaleProperties: ["padding-bottom"]
+  },
+  {
+    className: "RightSpacer",
+    modifiers: [{
+      modifierName: "reset",
+      modifierProperty: "margin-right",
+      modifierValue: "0"
+    }],
+    scaleProperties: ["margin-right"]
+  },
+  {
+    className: "LeftSpacer",
+    modifiers: [{
+      modifierName: "reset",
+      modifierProperty: "margin-left",
+      modifierValue: "0"
+    }],
+    scaleProperties: ["margin-left"]
+  },
+  {
+    className: "VerticalConstrainer",
+    modifiers: [{
+      modifierName: "topNoSpace",
+      modifierProperty: "padding-top",
+      modifierValue: "0"
+    },
+    {
+      modifierName: "bottomNoSpace",
+      modifierProperty: "padding-bottom",
+      modifierValue: "0"
+    }],
+    scaleProperties: ["padding-top", "padding-bottom"]
+  },
+  {
+    className: "VerticalStopper",
+    scaleProperties: ["height"]
+  }];
 
 module.exports = {
   baseFontSize: DATA.baseFontSize,
   scale: DATA.scale,
   numberOfResizePoints: DATA.numberOfResizePoints,
   numberOfSizes: DATA.numberOfSizes,
-  PURE_LAYOUT: PURE_LAYOUT,
-  NONPURE_LAYOUT: NONPURE_LAYOUT,
+  LAYOUT: LAYOUT,
   COLORS: COLORS,
   LINE_HEIGHTS: LINE_HEIGHTS,
   VARIABLES: VARIABLES
