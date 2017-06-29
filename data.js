@@ -163,7 +163,7 @@ const LAYOUT = [
       {
         modifierName:     "full",
         modifierProperty: "flex",
-        child: ".Grid-cell"
+        child: ".Grid-cell",
         modifierValue:    "0 0 100%"
       },
     ],
@@ -198,17 +198,17 @@ const LAYOUT = [
       {
         modifierName:     "alignLeft",
         modifierProperty: "align-self",
-        modifierValue::   "flex-start"
+        modifierValue: "flex-start"
       },
       {
         modifierName:     "alignCenter",
         modifierProperty: "align-self",
-        modifierValue::   "center"
+        modifierValue: "center"
       },
       {
         modifierName:     "alignBottom",
         modifierProperty: "align-self",
-        modifierValue::   "flex-end"
+        modifierValue:   "flex-end"
       },
       {
         modifierName: "relative",
@@ -218,7 +218,7 @@ const LAYOUT = [
       {
         modifierName:     "alignEnd",
         modifierProperty: "justify-content",
-        modifierValue::   "flex-end"
+        modifierValue:   "flex-end"
       },
     ],
     columns: 8,
@@ -232,12 +232,12 @@ const LAYOUT = [
     modifiers: [{
       modifierName:     "leftNoSpace",
       modifierProperty: "padding-left",
-      modifierValue::   "0"
+      modifierValue:   "0"
     },
     {
       modifierName:     "rightNoSpace",
       modifierProperty: "padding-right",
-      modifierValue::   "0"
+      modifierValue:   "0"
     }],
     scaleProperties: ["padding-left", "padding-right"]
   },
