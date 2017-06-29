@@ -55,19 +55,13 @@ function toArray(someValue) {
 }
 
 function objectFromArrays(firstArray, secondArray) {
-
-  console.log("UTILS.objectFromArrays");
-  
   let obj = {};
 
   for (let i = 0; i < firstArray.length; i += 1) {
     obj[firstArray[i]] = secondArray[i];
   }
 
-  console.log("obj", obj);
-
   return obj;
-
 }
 
 module.exports = {
