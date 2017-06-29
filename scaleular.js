@@ -147,7 +147,7 @@ const generateScaledClasses = function (className, properties, prefix) {
 
     const positiveKeyPropertyValues = UTILS.objectFromArrays(
       UTILS.toArray(properties),
-      UTILS.toArray(getScaleBasedOnNumber(j, "up", true))
+      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", true), properties.length)
     );
 
     console.log("positiveKeyPropertyValues", positiveKeyPropertyValues);
@@ -173,7 +173,7 @@ const generateScaledClasses = function (className, properties, prefix) {
 
     const negativeKeyPropertyValues = UTILS.objectFromArrays(
       UTILS.toArray(properties),
-      UTILS.toArray(getScaleBasedOnNumber(j, "down", true))
+      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", true), properties.length)
     );
 
     let negativeLayoutObj = {
@@ -227,17 +227,18 @@ const generateModifierClasses = function (className, modifiers, prefix) {
  * @description - Generates custom css classes for each color in DATA.COLORS given a className.
  * @example: &.Bold--mediumBlue { color: $40300; }
  * TODO: Right now just immeditely puts the color in there, but would be cool to generate variables first and use that instead of the direct HEX code. */
-const generateColorClasses = function (className, prefix) {
+const generateColorClasses = function (className, prefix, isBackgroundColor) {
 
   const colorClasses = [];
 
   for (let i = 0; i < DATA.COLORS.length; i += 1) {
+
     const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name);
 
     let singleLayoutObj = {
       className: className,
       modifier: customColorName,
-      properties: ["color"],
+      properties: isBackgroundColor ? ["backgroundColor"] : ["color"],
       propertyValue: DATA.COLORS[i]
     }
 
@@ -327,6 +328,11 @@ const generateLayout = function (prefix) {
     if ("colors" in DATA.LAYOUT[i]) {
       const colorClasses = generateColorClasses(DATA.LAYOUT[i].className, prefix);
       allCombinedClasses = allCombinedClasses.concat(colorClasses);
+    }
+
+    if ("backgroundColors" in DATA.LAYOUT[i]) {
+      const backgroundColorClasses = generateColorClasses(DATA.LAYOUT[i].className, prefix, true);
+      allCombinedClasses = allCombinedClasses.concat(backgroundColorClasses);
     }
 
     if ("lineHeights" in DATA.LAYOUT[i]) {
@@ -436,4 +442,4 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 // console.log(generateModifierClasses(DATA.LAYOUT[0].className, DATA.LAYOUT[0].modifiers));
 
 console.log("generateScaledClasses");
-console.log(generateScaledClasses(DATA.LAYOUT[1].className, DATA.LAYOUT[1].scaleProperty));
+console.log(generateScaledClasses(DATA.LAYOUT[2].className, DATA.LAYOUT[2].scaleProperties));
