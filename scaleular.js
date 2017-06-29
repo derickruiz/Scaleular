@@ -242,14 +242,43 @@ const generateModifierClasses = function (className, modifiers, prefix) {
  * @description - Generates custom css classes for each color in DATA.COLORS given a className.
  * @example: &.Bold--mediumBlue { color: $40300; }
  * TODO: Right now just immeditely puts the color in there, but would be cool to generate variables first and use that instead of the direct HEX code. */
-const generateColorClasses = function (className, isBackgroundColor, prefix) {
+let generateColorClasses = function (className, isBackgroundColor, prefix) {
 
   const colorClasses = [];
 
   for (let i = 0; i < DATA.COLORS.length; i += 1) {
 
-    const customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[0].name),
-          colorOrBackground = isBackgroundColor ? ["backgroundColor"] : ["color"];
+    let customColorName;
+
+    console.log("generateColorClasses.nameCache", generateColorClasses.nameCache);
+    console.log("generateColorClasses.colorCache", generateColorClasses.colorCache);
+
+    if (typeof generateColorClasses.colorCache[DATA.COLORS[i]] === "undefined") {
+
+      let iterator = 0;
+
+      customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
+
+      while (generateColorClasses.nameCache[customColorName]) { // The name already exists so use another one.
+        console.log("while");
+        console.log("customColorName", customColorName);
+        customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
+
+        if (typeof generateColorClasses.nameCache[customColorName] === undefined) {
+          generateColorClasses.nameCache[customColorName] = true;
+        }
+
+        iterator += 1;
+      }
+
+      generateColorClasses.colorCache[DATA.COLORS[i]] = customColorName;
+
+    } else {
+      customColorName = generateColorClasses.colorCache[DATA.COLORS[i]];
+    }
+
+    const colorOrBackground = isBackgroundColor ? ["backgroundColor"] : ["color"];
+
 
     let singleLayoutObj = {
       className: className,
@@ -268,6 +297,9 @@ const generateColorClasses = function (className, isBackgroundColor, prefix) {
 
   return colorClasses;
 };
+
+generateColorClasses.colorCache = {};
+generateColorClasses.nameCache = {}; // "abbey": true Just a cache to see if the name is already used.
 
 /*
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
@@ -653,4 +685,6 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 };
 
 
-putGeneratedLayoutIntoFile(true);
+// putGeneratedLayoutIntoFile(true);
+console.log("generateColorClasses");
+console.log(generateColorClasses("Text", false));
