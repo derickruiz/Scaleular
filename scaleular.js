@@ -193,7 +193,7 @@ const generateScaledClasses = function (className, properties, prefix) {
 
     const positiveKeyPropertyValues = UTILS.objectFromArrays(
       UTILS.toArray(properties),
-      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "down", { variable: true }), properties.length)
+      UTILS.duplicateArrayValue(getScaleBasedOnNumber(j, "up", { variable: true }), properties.length)
     );
 
     let positiveLayoutObj = {
