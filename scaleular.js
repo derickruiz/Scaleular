@@ -686,4 +686,4 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 };
 
 
-// putGeneratedLayoutIntoFile(true);
+putGeneratedLayoutIntoFile(true);
