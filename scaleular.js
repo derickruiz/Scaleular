@@ -22,6 +22,39 @@ const getDownRemNumber = function (baseFontSize, scale, number) {
 
 }
 
+const getCustomColorName = (function () {
+
+  var names = {};
+
+  function getName(colorCode, iterator) {
+
+    const customColorName = UTILS.camelize(colorNamer(colorCode).ntc[iterator].name);
+
+    if (typeof names[customColorName] === "undefined") {
+      names[customColorName] = true;
+      return customColorName;
+    } else {
+      return getName(colorCode, iterator + 1);
+    }
+
+  }
+
+  return getName;
+
+}());
+
+const COLOR_CACHE = (function () {
+
+  let colors = {};
+
+  for (let i = 0; i < DATA.COLORS.length; i += 1) {
+    colors[DATA.COLORS[i]] = getCustomColorName(DATA.COLORS[i], 0);
+  }
+
+  return colors;
+
+}());
+
 /*
  * @description - Returns the percentage of i to n.
  * @example: getPercentage(1, 8) is = 12.5;
@@ -30,7 +63,7 @@ const getDownRemNumber = function (baseFontSize, scale, number) {
 const getPercentage = function(i, n) {
   const outOf100 = 100 / n;
   return outOf100 * i;
-}
+};
 
 const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
@@ -306,6 +339,10 @@ let generateColorClasses = function (className, isBackgroundColor, prefix) {
   return colorClasses;
 };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 /*
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
  * @example: &.Bold--lineHeightOneFour{ line-height: 1.4; }
@@ -691,5 +728,3 @@ const putGeneratedLayoutIntoFile = function (renderCss) {
 
 
 // putGeneratedLayoutIntoFile(true);
-console.log("generateColorClasses");
-console.log(generateColorClasses("Text", false));

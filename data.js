@@ -20,7 +20,7 @@ const VARIABLES = `
 `;
 
 const LINE_HEIGHTS = ["1", "1.2", "1.25", "1.3", "1.5", "1.618", "2"];
-const COLORS = ["#4C4C4C", "#42ACEE", "#0007DC"];
+const COLORS = ['#F19A3E','#2AB8F4','#2192C2','#F5F3F5','#CEC9CF','#1DA1F2','#145F7E','#A22048','#921245','#EE4167','#DC0072','#695E6C','#3F3941', '#3C3C3C','#A31F49','#921144','#4C4C4C','#42ACEE','#0007DC'];
 
 const LAYOUT = [
 
