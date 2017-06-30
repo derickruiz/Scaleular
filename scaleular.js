@@ -91,43 +91,6 @@ const variableGenerator = function(baseFontSize, scale, numberOfVars) {
 
 }
 
-
-const COLOR_CACHE = (function () {
-
-  let names = {};
-  let colors = {};
-
-  for (let i = 0; i < DATA.COLORS.length; i += 1) {
-
-    let customColorName;
-
-    if (typeof colors[DATA.COLORS[i]] === "undefined") {
-
-      let iterator = 0;
-
-      customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
-
-      while (names[customColorName]) { // The name already exists so use another one.
-        customColorName = UTILS.camelize(colorNamer(DATA.COLORS[i]).ntc[iterator].name);
-
-        if (typeof names[customColorName] === undefined) {
-          names[customColorName] = true;
-        }
-
-        iterator += 1;
-      }
-
-      colors[DATA.COLORS[i]] = customColorName;
-
-    } else {
-      customColorName = colors[DATA.COLORS[i]];
-    }
-  }
-
-  return colors;
-
-}());
-
 // STEP 2. Generate the layout.
 
 /*
@@ -339,10 +302,6 @@ let generateColorClasses = function (className, isBackgroundColor, prefix) {
   return colorClasses;
 };
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 /*
  * @description - Generates custom css classes line heights in DATA.LINE_HEIGHTS given a className.
  * @example: &.Bold--lineHeightOneFour{ line-height: 1.4; }
