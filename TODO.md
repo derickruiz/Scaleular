@@ -4,6 +4,8 @@
 
 3. Add an option to remove all unused css and generate a file with only the css that's being used.
 
-4. Add the colors in there from the colors that you're going to use.
+4. [x] Add the colors in there from the colors that you're going to use.
 
 5. Could probably cut the size of this thing down by half I properly thought about how to create functions. Lots of code duplication here. It works for now.
+
+6. Fix the issue with the pullers and pushers not being generated correctly. (NaN)
