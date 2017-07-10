@@ -72,14 +72,14 @@ let scaleClasses = [];
 const generateScaleClasses = function (suffix) {
 
   classesToGenerate.forEach(function (klass) {
-    for (let i = 1; i <= 8; i += 1) {
+    for (let i = 0; i <= 8; i += 1) {
 
       if (suffix) {
-        scaleClasses.push(klass + "(u" + i + ")" + "--" + suffix);
-        scaleClasses.push(klass + "(d" + i + ")" + "--" + suffix);
+        scaleClasses.push(i === 0 ? klass + "(default)" : klass + "(u" + i + ")" + "--" + suffix);
+        scaleClasses.push(i === 0 ? klass + "(default)" : klass + "(d" + i + ")" + "--" + suffix);
       } else {
-        scaleClasses.push(klass + "(u" + i + ")");
-        scaleClasses.push(klass + "(d" + i + ")");
+        scaleClasses.push(i === 0 ? klass + "(default)" : klass + "(u" + i + ")");
+        scaleClasses.push(i === 0 ? klass + "(default)" : klass + "(d" + i + ")");
       }
 
     }
@@ -124,7 +124,9 @@ const atomizer = new Atomizer({verbose: false});
 const SCALE_CSS = atomizer.getCss(defaultConfig);
 
 
-const COLORS = ['#F19A3E','#2AB8F4','#2192C2','#F5F3F5','#CEC9CF','#1DA1F2','#145F7E','#A22048','#921245','#EE4167','#DC0072','#695E6C','#3F3941', '#3C3C3C','#A31F49','#921144','#4C4C4C','#42ACEE','#0007DC'];
+//const COLORS = ['#F19A3E','#2AB8F4','#2192C2','#F5F3F5','#CEC9CF','#1DA1F2','#145F7E','#A22048','#921245','#EE4167','#DC0072','#695E6C','#3F3941', '#3C3C3C','#A31F49','#921144','#4C4C4C','#42ACEE','#0007DC'];
+
+const COLORS = ["#3C354A", "#15101F", "#F4638E", "#B71B9F", "#EE7270", "#FCB050", "#888590", "#EC8559", "#3DC75D"];
 
 /*
  * @source: https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
@@ -206,7 +208,7 @@ colorConfig["classNames"] = COLOR_CLASSES;
 // Generate Atomic CSS from configuration
 const COLOR_CSS = atomizer.getCss(colorConfig);
 
-fs.writeFile("./scaleular.css", SCALE_CSS.concat(COLOR_CSS), function(err) {
+fs.writeFile("./scaleular_dating_app.css", SCALE_CSS.concat(COLOR_CSS), function(err) {
     if(err) {
         return console.log(err);
     } else {
